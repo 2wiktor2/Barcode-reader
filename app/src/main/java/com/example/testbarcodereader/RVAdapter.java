@@ -1,7 +1,6 @@
 package com.example.testbarcodereader;
 
 import android.content.Context;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,24 +11,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
-    private Context context;
-    private ArrayList<String> resultsOfScan;
-    private HashMap<String, Pair> resultsOfScanMap;
+    private ArrayList<MyBarecode> resultsOfScan;
 
-
-    public RVAdapter( HashMap<String, Pair> resultsOfScanMap, Context context) {
-        this.context = context;
-        this.resultsOfScanMap = resultsOfScanMap;
-    }
-
-    /*    public RVAdapter(ArrayList<String> resultsOfScan, Context context) {
+    public RVAdapter(ArrayList<MyBarecode> resultsOfScan) {
         this.resultsOfScan = resultsOfScan;
-        this.context = context;
-    }*/
+    }
 
     @NonNull
     @Override
@@ -42,14 +31,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Установка цвета на recyclerView
-        if (position % 2 == 0) {
-            holder.constraintLayout.setBackgroundColor(context.getColor(R.color.colorYello));
-        } else {
-            holder.constraintLayout.setBackgroundColor(context.getColor(R.color.colorGreen));
-        }
+        holder.changeBackground(position);
 
-        //holder.textViewResult.setText(resultsOfScan.get(position));
-        holder.textViewResult.setText(resultsOfScanMap.get(position))
+        MyBarecode barcode = resultsOfScan.get(position);
+        holder.textViewResult.setText(barcode.getBarcodeResult());
+        holder.textViewNumbers.setText(String.valueOf(barcode.getAmountOfNumbers()));
+        holder.textViewLetters.setText(String.valueOf(barcode.getAmountOfLetters()));
     }
 
     @Override
@@ -62,14 +49,23 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         private ConstraintLayout constraintLayout;
         private TextView textViewResult;
         private TextView textViewNumbers;
-        private TextView textViewLellers;
+        private TextView textViewLetters;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             constraintLayout = itemView.findViewById(R.id.constrainLayout);
             textViewResult = itemView.findViewById(R.id.textViewResultOfScan);
             textViewNumbers = itemView.findViewById(R.id.textViewNumbers);
-            textViewLellers = itemView.findViewById(R.id.textViewLetters);
+            textViewLetters = itemView.findViewById(R.id.textViewLetters);
+        }
+
+        private void changeBackground(int position) {
+            Context context = itemView.getContext();
+            if (position % 2 == 0) {
+                constraintLayout.setBackgroundColor(context.getColor(R.color.colorGray));
+            } else {
+                constraintLayout.setBackgroundColor(context.getColor(R.color.colorGrayLight));
+            }
         }
     }
 
