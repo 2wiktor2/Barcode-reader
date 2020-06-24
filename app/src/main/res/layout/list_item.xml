@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/constrainLayout"
+    android:layout_margin="8dp"
+    android:padding="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textViewResultOfScanTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/text_tv_result_of_scan"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewResultOfScan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/text_tv_result_of_scan"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewResultOfScanTitle" />
+
+    <TextView
+        android:id="@+id/textViewLettersTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/letters"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/textViewNumbersTitle"
+        app:layout_constraintTop_toBottomOf="@id/textViewResultOfScan" />
+
+    <TextView
+        android:id="@+id/textViewNumbersTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/numbers"
+        app:layout_constraintLeft_toRightOf="@id/textViewLettersTitle"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewResultOfScan" />
+
+    <TextView
+        android:id="@+id/textViewLetters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/letters"
+        app:layout_constraintLeft_toLeftOf="@id/textViewLettersTitle"
+        app:layout_constraintRight_toRightOf="@+id/textViewLettersTitle"
+        app:layout_constraintTop_toBottomOf="@id/textViewLettersTitle" />
+
+    <TextView
+        android:id="@+id/textViewNumbers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/numbers"
+        app:layout_constraintLeft_toLeftOf="@id/textViewNumbersTitle"
+        app:layout_constraintLeft_toRightOf="@id/textViewLettersTitle"
+        app:layout_constraintRight_toRightOf="@id/textViewNumbersTitle"
+        app:layout_constraintTop_toBottomOf="@id/textViewLettersTitle" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

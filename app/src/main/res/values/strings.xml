@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TestBarcodeReader</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_tv_result_of_scan">Результат сканирования</string>
+    <string name="letters">Буквы</string>
+    <string name="numbers">Цифры</string>
+</resources>
