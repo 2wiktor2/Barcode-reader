@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,12 +36,12 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private TextView textViewCountScannedBarCode;
 
     SharedPreferences preferences;
-    final String SAVED_TEXT = "saved_text";
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     //Колличество отсканирпованыых штрихкодов
     private int count;
-    private int choosedCount;
+    //Ограничение на сканирование штрих-кодов
+    private int selectedQuantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         setContentView(R.layout.activity_main);
         recyclerViewResults = findViewById(R.id.recyclerView);
         textViewCountScannedBarCode = findViewById(R.id.textViewCountScanedBarCode);
-        count = 5;
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerViewResults.setLayoutManager(linearLayoutManager);
@@ -71,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     protected void onResume() {
         super.onResume();
         loadData();
+        textViewCountScannedBarCode.setText(updateInfoText());
     }
 
     @Override
@@ -105,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         resultsOfScan.add(0, separateResult(barcode.rawValue));
         rvAdapter.notifyDataSetChanged();
         count = resultsOfScan.size();
-        textViewCountScannedBarCode.setText(String.valueOf(count));
+        textViewCountScannedBarCode.setText(updateInfoText());
     }
 
     @Override
@@ -148,18 +147,18 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private void saveData() {
         preferences = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor ed = preferences.edit();
-        //ed.put(SAVED_TEXT, resultsOfScan);
+        ed.putInt(Constants.KEY_FOR_SELECTED_QUANTITY, selectedQuantity);
+        ed.putInt(Constants.KEY_FOR_COUNT, count);
         ed.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-        Log.d("qwerty", "список сохранен");
     }
 
     //Загрузка данных из sharedPreferences
     private void loadData() {
         preferences = getPreferences(MODE_PRIVATE);
-        String savedText = preferences.getString(SAVED_TEXT, "");
+        selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 7);
+        count = preferences.getInt(Constants.KEY_FOR_COUNT, -1);
         Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
-        Log.d("qwerty", "список закгужен");
     }
 
 
@@ -179,17 +178,24 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
 
     //Диалог выбора количетва сканируемых штрихкодов
     private void createDialog() {
-        final AlertDialog.Builder dialogInfo = new AlertDialog.Builder(this);
-        dialogInfo.setTitle("Колличество штрих-кодов")
-                .setView(R.layout.dialog_choise_count)
-                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = dialogInfo.create();
+        final String[] items = {"5", "10", "20", "50"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Максимальное количество штрих-кодов");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                // Do something with the selection
+                //mDoneButton.setText(items[item]);
+                selectedQuantity = Integer.parseInt(items[item]);
+                textViewCountScannedBarCode.setText(updateInfoText());
+            }
+        });
+        AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private String updateInfoText() {
+        return count + " из " + selectedQuantity;
     }
 }
 

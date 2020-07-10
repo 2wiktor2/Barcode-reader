@@ -7,4 +7,5 @@
     <string name="letters">Буквы</string>
     <string name="numbers">Цифры</string>
     <string name="coutOfBarCode">Колличество отсканированных штрих-кодов:</string>
+
 </resources>
