@@ -7,5 +7,8 @@
     <string name="letters">Буквы</string>
     <string name="numbers">Цифры</string>
     <string name="coutOfBarCode">Колличество отсканированных штрих-кодов:</string>
+    <string name="delete">Удалить</string>
+    <string name="cencel">Отмена</string>
+    <string name="listScannedBarCodes">Список отсканированных кодов</string>
 
 </resources>

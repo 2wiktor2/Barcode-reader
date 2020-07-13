@@ -1,6 +1,8 @@
 package com.example.testbarcodereader;
 
-public class MyBarecode {
+import java.io.Serializable;
+
+public class MyBarecode implements Serializable {
     private String barcodeResult;
     private int amountOfNumbers;
     private int amountOfLetters;

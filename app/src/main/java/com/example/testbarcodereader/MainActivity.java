@@ -2,6 +2,7 @@ package com.example.testbarcodereader;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -25,6 +26,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.notbytes.barcode_reader.BarcodeReaderFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.notbytes.barcode_reader.BarcodeReaderFragment.newInstance;
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     SharedPreferences preferences;
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-    //Колличество отсканирпованыых штрихкодов
+    //Колличество отсканированыых штрих-кодов
     private int count;
     //Ограничение на сканирование штрих-кодов
     private int selectedQuantity;
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         rvAdapter.notifyDataSetChanged();
         count = resultsOfScan.size();
         textViewCountScannedBarCode.setText(updateInfoText());
+        timeToSave();
     }
 
     @Override
@@ -149,6 +152,13 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         SharedPreferences.Editor ed = preferences.edit();
         ed.putInt(Constants.KEY_FOR_SELECTED_QUANTITY, selectedQuantity);
         ed.putInt(Constants.KEY_FOR_COUNT, count);
+        ed.putInt("Status_size", resultsOfScan.size());
+        for (int i = 0; i < resultsOfScan.size(); i++) {
+            MyBarecode barcode = resultsOfScan.get(i);
+            String s = barcode.getBarcodeResult();
+            ed.remove("Status_" + i);
+            ed.putString("Status_" + i, s);
+        }
         ed.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
     }
@@ -158,9 +168,21 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         preferences = getPreferences(MODE_PRIVATE);
         selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 7);
         count = preferences.getInt(Constants.KEY_FOR_COUNT, -1);
+
+        resultsOfScan.clear();
+        int size = preferences.getInt("Status_size", 0);
+
+        //todo Сделать добавлене в обратном порядке
+        for (int i = 0; i < size; i++) {
+            String sss = preferences.getString("Status_" + i, null);
+            if (sss != null) {
+                resultsOfScan.add(0, separateResult(sss));
+            }
+        }
+        //переворот в обратном порядке
+        Collections.reverse(resultsOfScan);
         Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
     }
-
 
     //Меню в toolbar-е
     @Override
@@ -172,7 +194,14 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     //обработка щелчка по меню
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        createDialog();
+        switch (item.getItemId()) {
+            case R.id.set_count:
+                createDialog();
+                break;
+            case R.id.delete:
+                clearListOfBarCodeDialog();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -181,21 +210,61 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         final String[] items = {"5", "10", "20", "50"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Максимальное количество штрих-кодов");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                // Do something with the selection
-                //mDoneButton.setText(items[item]);
-                selectedQuantity = Integer.parseInt(items[item]);
-                textViewCountScannedBarCode.setText(updateInfoText());
-            }
-        });
+        builder.setTitle("Максимальное количество штрих-кодов")
+                .setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        // Do something with the selection
+                        //mDoneButton.setText(items[item]);
+                        selectedQuantity = Integer.parseInt(items[item]);
+                        textViewCountScannedBarCode.setText(updateInfoText());
+                    }
+                });
         AlertDialog alert = builder.create();
         alert.show();
     }
 
+    //Диалог отчистка списка
+    private void clearListOfBarCodeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Удалить все записи?")
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //отчистка списка
+                        resultsOfScan.clear();
+                        count = resultsOfScan.size();
+                        textViewCountScannedBarCode.setText(updateInfoText());
+                        rvAdapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton(R.string.cencel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    //Вставка текста в TextView
     private String updateInfoText() {
         return count + " из " + selectedQuantity;
+    }
+
+    //Отслеживать колличество отсканированных штрих-кодов и выводить сообщение при превышении порога
+    //Останавливать сканер
+    private void timeToSave() {
+        if (count >= selectedQuantity) {
+            Toast.makeText(this, "Пора сохраниться", Toast.LENGTH_LONG).show();
+            //Если количество отсканированных штрих кодов праевышает погог,
+            // то переходим на активити для проверки и отправки
+            Intent intent = new Intent(this, ActivitySendBarcode.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("ARRAY_LIST", resultsOfScan);
+            intent.putExtra("BUNDLE", bundle);
+            startActivity(intent);
+        }
     }
 }
 
