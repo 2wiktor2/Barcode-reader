@@ -5,6 +5,11 @@
         android:id="@+id/set_count"
         android:title="Set count"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/check"
+        android:title="Проверка"
+        app:showAsAction="never" />
     <item
         android:id="@+id/delete"
         android:title="Отчистить"

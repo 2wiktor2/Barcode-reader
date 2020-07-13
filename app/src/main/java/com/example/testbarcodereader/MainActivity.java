@@ -33,7 +33,7 @@ import static com.notbytes.barcode_reader.BarcodeReaderFragment.newInstance;
 
 public class MainActivity extends AppCompatActivity implements BarcodeReaderFragment.BarcodeReaderListener {
     private RecyclerView recyclerViewResults;
-    private ArrayList<MyBarecode> resultsOfScan = new ArrayList<>();
+    private ArrayList<MyBarcode> resultsOfScan = new ArrayList<>();
     private RVAdapter rvAdapter;
     private TextView textViewCountScannedBarCode;
 
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         Toast.makeText(this, "Camera permission denied!", Toast.LENGTH_LONG).show();
     }
 
-    private MyBarecode separateResult(String result) {
+    private MyBarcode separateResult(String result) {
         int amountOfNumbers = 0;
         int amountOfLetters = 0;
         //int amountOfSymbols = 0;
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
             //Количество остальных символов
             //amountOfSymbols = result.length() - amountOfNumbers - amountOfLetters;
         }
-        return new MyBarecode(result, amountOfNumbers, amountOfLetters);
+        return new MyBarcode(result, amountOfNumbers, amountOfLetters);
     }
 
     //Сохранение данных в sharedPreferences
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         ed.putInt(Constants.KEY_FOR_COUNT, count);
         ed.putInt("Status_size", resultsOfScan.size());
         for (int i = 0; i < resultsOfScan.size(); i++) {
-            MyBarecode barcode = resultsOfScan.get(i);
+            MyBarcode barcode = resultsOfScan.get(i);
             String s = barcode.getBarcodeResult();
             ed.remove("Status_" + i);
             ed.putString("Status_" + i, s);
@@ -197,6 +197,9 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         switch (item.getItemId()) {
             case R.id.set_count:
                 createDialog();
+                break;
+            case R.id.check:
+                startActivityForCheckAndSend();
                 break;
             case R.id.delete:
                 clearListOfBarCodeDialog();
@@ -259,12 +262,17 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
             Toast.makeText(this, "Пора сохраниться", Toast.LENGTH_LONG).show();
             //Если количество отсканированных штрих кодов праевышает погог,
             // то переходим на активити для проверки и отправки
-            Intent intent = new Intent(this, ActivitySendBarcode.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("ARRAY_LIST", resultsOfScan);
-            intent.putExtra("BUNDLE", bundle);
-            startActivity(intent);
+            startActivityForCheckAndSend();
         }
+    }
+
+    private void startActivityForCheckAndSend() {
+        Intent intent = new Intent(this, ActivitySendBarcode.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("ARRAY_LIST", resultsOfScan);
+        intent.putExtra("BUNDLE", bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 }
 

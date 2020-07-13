@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -14,7 +16,8 @@ public class ActivitySendBarcode extends AppCompatActivity {
     //todo проверить с существующими
     //todo отправить данные
 
-    private ArrayList<MyBarecode> resultsOfScan;
+    private ArrayList<MyBarcode> resultsOfScan;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,16 +27,24 @@ public class ActivitySendBarcode extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("BUNDLE");
         if (bundle != null) {
-            resultsOfScan = (ArrayList<MyBarecode>) bundle.getSerializable("ARRAY_LIST");
+            resultsOfScan = (ArrayList<MyBarcode>) bundle.getSerializable("ARRAY_LIST");
         }
         // проверка. Вывод списка в log
         if (resultsOfScan != null) {
             Log.d("qwerty", "Длина = " + resultsOfScan.size());
             for (int i = 0; i < resultsOfScan.size(); i++) {
-                MyBarecode b = resultsOfScan.get(i);
+                MyBarcode b = resultsOfScan.get(i);
                 String s = b.getBarcodeResult();
-                Log.d("qwerty", s);
+                Log.d("qwerty", "i = " + (i + 1) + "  " + s);
             }
+        recyclerView = findViewById(R.id.recyclerView);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        RVAdapter2 adapter = new RVAdapter2(resultsOfScan);
+        recyclerView.setAdapter(adapter);
+
+
         }
     }
 }
