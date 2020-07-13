@@ -1,4 +1,4 @@
-package com.example.testbarcodereader;
+package com.example.testbarcodereader.activityWithBarcodeReader.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,13 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.testbarcodereader.model.MyBarcode;
+import com.example.testbarcodereader.R;
+
 import java.util.ArrayList;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
     private ArrayList<MyBarcode> resultsOfScan;
 
-    RVAdapter(ArrayList<MyBarcode> resultsOfScan) {
+    public RVAdapter(ArrayList<MyBarcode> resultsOfScan) {
         this.resultsOfScan = resultsOfScan;
     }
 

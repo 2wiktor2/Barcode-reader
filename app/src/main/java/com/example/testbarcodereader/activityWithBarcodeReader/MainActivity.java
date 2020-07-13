@@ -1,4 +1,4 @@
-package com.example.testbarcodereader;
+package com.example.testbarcodereader.activityWithBarcodeReader;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -22,6 +22,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.testbarcodereader.Constants;
+import com.example.testbarcodereader.R;
+import com.example.testbarcodereader.activitySend.ActivitySendBarcode;
+import com.example.testbarcodereader.activityWithBarcodeReader.adapter.RVAdapter;
+import com.example.testbarcodereader.model.MyBarcode;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.notbytes.barcode_reader.BarcodeReaderFragment;
 
@@ -269,8 +274,8 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private void startActivityForCheckAndSend() {
         Intent intent = new Intent(this, ActivitySendBarcode.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("ARRAY_LIST", resultsOfScan);
-        intent.putExtra("BUNDLE", bundle);
+        bundle.putSerializable(Constants.KEY_FOR_SEND_ARRAY_LIST, resultsOfScan);
+        intent.putExtra(Constants.KEY_BUNDLE, bundle);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }

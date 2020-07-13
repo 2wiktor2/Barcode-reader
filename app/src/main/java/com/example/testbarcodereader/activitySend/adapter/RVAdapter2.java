@@ -1,4 +1,4 @@
-package com.example.testbarcodereader;
+package com.example.testbarcodereader.activitySend.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.testbarcodereader.model.MyBarcode;
+import com.example.testbarcodereader.R;
 
 import java.util.ArrayList;
 

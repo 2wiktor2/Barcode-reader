@@ -6,6 +6,9 @@ public class Constants {
     public static final int COUNT_20 = 20;
     public static final int COUNT_50 = 50;
 
-    static final String KEY_FOR_SELECTED_QUANTITY = "keyForSelectedQuantity";
-    static final String KEY_FOR_COUNT = "keyForCount";
+    public static final String KEY_FOR_SELECTED_QUANTITY = "keyForSelectedQuantity";
+    public static final String KEY_FOR_COUNT = "keyForCount";
+
+    public static final String KEY_FOR_SEND_ARRAY_LIST = "arrayList";
+    public static final String KEY_BUNDLE = "key_bundle";
 }

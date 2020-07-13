@@ -1,4 +1,4 @@
-package com.example.testbarcodereader;
+package com.example.testbarcodereader.activitySend;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,11 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.testbarcodereader.Constants;
+import com.example.testbarcodereader.model.MyBarcode;
+import com.example.testbarcodereader.R;
+import com.example.testbarcodereader.activitySend.adapter.RVAdapter2;
 
 import java.util.ArrayList;
 
@@ -25,9 +30,9 @@ public class ActivitySendBarcode extends AppCompatActivity {
         setContentView(R.layout.activity_send_barecodes);
 
         Intent intent = getIntent();
-        Bundle bundle = intent.getBundleExtra("BUNDLE");
+        Bundle bundle = intent.getBundleExtra(Constants.KEY_BUNDLE);
         if (bundle != null) {
-            resultsOfScan = (ArrayList<MyBarcode>) bundle.getSerializable("ARRAY_LIST");
+            resultsOfScan = (ArrayList<MyBarcode>) bundle.getSerializable(Constants.KEY_FOR_SEND_ARRAY_LIST);
         }
         // проверка. Вывод списка в log
         if (resultsOfScan != null) {
@@ -37,12 +42,12 @@ public class ActivitySendBarcode extends AppCompatActivity {
                 String s = b.getBarcodeResult();
                 Log.d("qwerty", "i = " + (i + 1) + "  " + s);
             }
-        recyclerView = findViewById(R.id.recyclerView);
+            recyclerView = findViewById(R.id.recyclerView);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        RVAdapter2 adapter = new RVAdapter2(resultsOfScan);
-        recyclerView.setAdapter(adapter);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+            RVAdapter2 adapter = new RVAdapter2(resultsOfScan);
+            recyclerView.setAdapter(adapter);
 
 
         }
