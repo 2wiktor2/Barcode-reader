@@ -32,6 +32,7 @@ import com.notbytes.barcode_reader.BarcodeReaderFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import static com.notbytes.barcode_reader.BarcodeReaderFragment.newInstance;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private ArrayList<MyBarcode> resultsOfScan = new ArrayList<>();
     private RVAdapter rvAdapter;
     private TextView textViewCountScannedBarCode;
+    private HashSet<String> barcodeStrings;
 
     SharedPreferences preferences;
 
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         setContentView(R.layout.activity_main);
         recyclerViewResults = findViewById(R.id.recyclerView);
         textViewCountScannedBarCode = findViewById(R.id.textViewCountScanedBarCode);
+
+        barcodeStrings = new HashSet<>();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerViewResults.setLayoutManager(linearLayoutManager);
@@ -108,7 +112,9 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
 
     @Override
     public void onScanned(Barcode barcode) {
-        resultsOfScan.add(0, separateResult(barcode.rawValue));
+        // добавление отсканированного штрихкода в hashSet
+       barcodeStrings.add(barcode.rawValue);
+        //resultsOfScan.add(0, separateResult(barcode.rawValue));
         rvAdapter.notifyDataSetChanged();
         count = resultsOfScan.size();
         textViewCountScannedBarCode.setText(updateInfoText());
@@ -134,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     public void onCameraPermissionDenied() {
         Toast.makeText(this, "Camera permission denied!", Toast.LENGTH_LONG).show();
     }
+
 
     private MyBarcode separateResult(String result) {
         int amountOfNumbers = 0;
