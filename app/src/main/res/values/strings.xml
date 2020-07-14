@@ -9,6 +9,7 @@
     <string name="coutOfBarCode">Колличество отсканированных штрих-кодов:</string>
     <string name="delete">Удалить</string>
     <string name="cencel">Отмена</string>
+    <string name="exit">Выход</string>
     <string name="listScannedBarCodes">Список отсканированных кодов</string>
     <string name="send">Отправить</string>
     <string name="check">Проверить</string>

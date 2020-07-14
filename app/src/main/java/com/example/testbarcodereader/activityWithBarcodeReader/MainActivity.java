@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,11 +23,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.testbarcodereader.utils.Constants;
 import com.example.testbarcodereader.R;
 import com.example.testbarcodereader.activitySend.ActivitySendBarcode;
 import com.example.testbarcodereader.activityWithBarcodeReader.adapter.RVAdapter;
 import com.example.testbarcodereader.data.MyBarcode;
+import com.example.testbarcodereader.utils.Constants;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.notbytes.barcode_reader.BarcodeReaderFragment;
 
@@ -74,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
             }
         }
+
+        Log.i("qwerty123", "onCreate");
     }
 
     @Override
@@ -81,12 +84,37 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         super.onResume();
         loadData();
         textViewCountScannedBarCode.setText(updateInfoText());
+
+        Log.i("qwerty123", "onResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         saveData();
+        Log.i("qwerty123", "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("qwerty123", "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        barcodeStrings.clear();
+        resultsOfScan.clear();
+        clearSP();
+        Log.i("qwerty123", "onDestroy");
+    }
+
+    @Override
+    public void onBackPressed() {
+        createWarningDialog();
+       // super.onBackPressed();
+        Log.i("qwerty123", "onBackPressed");
     }
 
     @Override
@@ -113,8 +141,13 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     @Override
     public void onScanned(Barcode barcode) {
         // добавление отсканированного штрихкода в hashSet
-       barcodeStrings.add(barcode.rawValue);
-        //resultsOfScan.add(0, separateResult(barcode.rawValue));
+
+        if (barcodeStrings.add(barcode.rawValue)) {
+            resultsOfScan.add(0, separateResult(barcode.rawValue));
+        } else {
+            Toast.makeText(this, "!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
+        }
+
         rvAdapter.notifyDataSetChanged();
         count = resultsOfScan.size();
         textViewCountScannedBarCode.setText(updateInfoText());
@@ -179,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private void loadData() {
         preferences = getPreferences(MODE_PRIVATE);
         selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 7);
-        count = preferences.getInt(Constants.KEY_FOR_COUNT, -1);
+        count = preferences.getInt(Constants.KEY_FOR_COUNT, 0);
 
         resultsOfScan.clear();
         int size = preferences.getInt("Status_size", 0);
@@ -262,6 +295,27 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         alert.show();
     }
 
+    //Диалог предупреждение перед выходом из приложения
+    private void createWarningDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("У Вас есть несохраненные данные!")
+                .setMessage("При выходе из приложения все несохраненные данные удалятся!\nВыйти из приложения?")
+                .setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(R.string.cencel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     //Вставка текста в TextView
     private String updateInfoText() {
         return count + " из " + selectedQuantity;
@@ -285,6 +339,21 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
+    }
+
+    //Валидатор
+    // todo реализовать валидатор
+    private boolean validator() {
+        return true;
+    }
+
+    //метод для отчистки SharedPreferences
+    private void clearSP() {
+        preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+        finish();
     }
 }
 
