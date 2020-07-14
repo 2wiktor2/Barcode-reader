@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.testbarcodereader.model.MyBarcode;
+import com.example.testbarcodereader.data.MyBarcode;
 import com.example.testbarcodereader.R;
 
 import java.util.ArrayList;

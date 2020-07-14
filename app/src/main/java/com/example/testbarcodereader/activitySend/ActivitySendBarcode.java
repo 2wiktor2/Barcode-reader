@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.testbarcodereader.Constants;
-import com.example.testbarcodereader.model.MyBarcode;
+import com.example.testbarcodereader.utils.Constants;
 import com.example.testbarcodereader.R;
 import com.example.testbarcodereader.activitySend.adapter.RVAdapter2;
+import com.example.testbarcodereader.data.MyBarcode;
 
 import java.util.ArrayList;
 
@@ -48,8 +48,6 @@ public class ActivitySendBarcode extends AppCompatActivity {
             recyclerView.setLayoutManager(layoutManager);
             RVAdapter2 adapter = new RVAdapter2(resultsOfScan);
             recyclerView.setAdapter(adapter);
-
-
         }
     }
 }

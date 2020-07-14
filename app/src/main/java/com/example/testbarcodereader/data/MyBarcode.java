@@ -1,4 +1,4 @@
-package com.example.testbarcodereader.model;
+package com.example.testbarcodereader.data;
 
 import java.io.Serializable;
 

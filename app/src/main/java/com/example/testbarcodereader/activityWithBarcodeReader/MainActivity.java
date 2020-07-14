@@ -22,11 +22,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.testbarcodereader.Constants;
+import com.example.testbarcodereader.utils.Constants;
 import com.example.testbarcodereader.R;
 import com.example.testbarcodereader.activitySend.ActivitySendBarcode;
 import com.example.testbarcodereader.activityWithBarcodeReader.adapter.RVAdapter;
-import com.example.testbarcodereader.model.MyBarcode;
+import com.example.testbarcodereader.data.MyBarcode;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.notbytes.barcode_reader.BarcodeReaderFragment;
 
