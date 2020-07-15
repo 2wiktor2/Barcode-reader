@@ -39,11 +39,13 @@ import java.util.List;
 import static com.notbytes.barcode_reader.BarcodeReaderFragment.newInstance;
 
 public class MainActivity extends AppCompatActivity implements BarcodeReaderFragment.BarcodeReaderListener {
-    private RecyclerView recyclerViewResults;
-    private ArrayList<MyBarcode> resultsOfScan = new ArrayList<>();
+
+    //todo ИСПРАВИТь иногда открываются сразу два окна акривити
+    private ArrayList<MyBarcode> barcodes = new ArrayList<>();
     private RVAdapter rvAdapter;
     private TextView textViewCountScannedBarCode;
-    private HashSet<String> barcodeStrings;
+    private HashSet<String> setOfBarcode;
+    private int setSize;
 
     SharedPreferences preferences;
 
@@ -57,15 +59,15 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerViewResults = findViewById(R.id.recyclerView);
+        RecyclerView recyclerViewResults = findViewById(R.id.recyclerView);
         textViewCountScannedBarCode = findViewById(R.id.textViewCountScanedBarCode);
 
-        barcodeStrings = new HashSet<>();
+        setOfBarcode = new HashSet<>();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerViewResults.setLayoutManager(linearLayoutManager);
 
-        rvAdapter = new RVAdapter(resultsOfScan);
+        rvAdapter = new RVAdapter(barcodes);
         recyclerViewResults.setAdapter(rvAdapter);
 
         addBarcodeReaderFragment();
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     protected void onResume() {
         super.onResume();
         loadData();
-        textViewCountScannedBarCode.setText(updateInfoText());
+        textViewCountScannedBarCode.setText(updateInfoText(setSize));
 
         Log.i("qwerty123", "onResume");
     }
@@ -104,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        barcodeStrings.clear();
-        resultsOfScan.clear();
+        setOfBarcode.clear();
+        barcodes.clear();
         clearSP();
         Log.i("qwerty123", "onDestroy");
     }
@@ -113,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     @Override
     public void onBackPressed() {
         createWarningDialog();
-       // super.onBackPressed();
+        // super.onBackPressed();
         Log.i("qwerty123", "onBackPressed");
     }
 
@@ -142,15 +144,16 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     public void onScanned(Barcode barcode) {
         // добавление отсканированного штрихкода в hashSet
 
-        if (barcodeStrings.add(barcode.rawValue)) {
-            resultsOfScan.add(0, separateResult(barcode.rawValue));
+        if (setOfBarcode.add(barcode.rawValue)) {
+            barcodes.add(0, separateResult(barcode.rawValue));
+            setSize = setOfBarcode.size();
         } else {
-            Toast.makeText(this, "!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Такой штрих-код уже отсканирован", Toast.LENGTH_SHORT).show();
         }
 
         rvAdapter.notifyDataSetChanged();
-        count = resultsOfScan.size();
-        textViewCountScannedBarCode.setText(updateInfoText());
+        count = barcodes.size();
+        textViewCountScannedBarCode.setText(updateInfoText(setSize));
         timeToSave();
     }
 
@@ -194,38 +197,42 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     //Сохранение данных в sharedPreferences
     private void saveData() {
         preferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor ed = preferences.edit();
-        ed.putInt(Constants.KEY_FOR_SELECTED_QUANTITY, selectedQuantity);
-        ed.putInt(Constants.KEY_FOR_COUNT, count);
-        ed.putInt("Status_size", resultsOfScan.size());
-        for (int i = 0; i < resultsOfScan.size(); i++) {
-            MyBarcode barcode = resultsOfScan.get(i);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putInt(Constants.KEY_FOR_SELECTED_QUANTITY, selectedQuantity);
+        editor.putInt(Constants.KEY_FOR_COUNT, count);
+
+        editor.putInt("Status_size", barcodes.size());
+        for (int i = 0; i < barcodes.size(); i++) {
+            MyBarcode barcode = barcodes.get(i);
             String s = barcode.getBarcodeResult();
-            ed.remove("Status_" + i);
-            ed.putString("Status_" + i, s);
+            editor.remove("Status_" + i);
+            editor.putString("Status_" + i, s);
         }
-        ed.apply();
+        editor.putStringSet("SET", setOfBarcode);
+        editor.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
     }
 
     //Загрузка данных из sharedPreferences
     private void loadData() {
         preferences = getPreferences(MODE_PRIVATE);
-        selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 7);
+        selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 21);
         count = preferences.getInt(Constants.KEY_FOR_COUNT, 0);
+        setOfBarcode = (HashSet)preferences.getStringSet(Constants.KEY_FOR_SET, new HashSet<String>());
 
-        resultsOfScan.clear();
+        barcodes.clear();
         int size = preferences.getInt("Status_size", 0);
 
         //todo Сделать добавлене в обратном порядке
         for (int i = 0; i < size; i++) {
             String sss = preferences.getString("Status_" + i, null);
             if (sss != null) {
-                resultsOfScan.add(0, separateResult(sss));
+                barcodes.add(0, separateResult(sss));
             }
         }
         //переворот в обратном порядке
-        Collections.reverse(resultsOfScan);
+        Collections.reverse(barcodes);
         Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
     }
 
@@ -264,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
                         // Do something with the selection
                         //mDoneButton.setText(items[item]);
                         selectedQuantity = Integer.parseInt(items[item]);
-                        textViewCountScannedBarCode.setText(updateInfoText());
+                        textViewCountScannedBarCode.setText(updateInfoText(setSize));
                     }
                 });
         AlertDialog alert = builder.create();
@@ -279,9 +286,9 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //отчистка списка
-                        resultsOfScan.clear();
-                        count = resultsOfScan.size();
-                        textViewCountScannedBarCode.setText(updateInfoText());
+                        barcodes.clear();
+                        count = barcodes.size();
+                        textViewCountScannedBarCode.setText(updateInfoText(setSize));
                         rvAdapter.notifyDataSetChanged();
                     }
                 })
@@ -317,8 +324,8 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     }
 
     //Вставка текста в TextView
-    private String updateInfoText() {
-        return count + " из " + selectedQuantity;
+    private String updateInfoText(int setSize) {
+        return count + " из " + selectedQuantity + "  " + "set = " + setSize;
     }
 
     //Отслеживать колличество отсканированных штрих-кодов и выводить сообщение при превышении порога
@@ -335,14 +342,14 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private void startActivityForCheckAndSend() {
         Intent intent = new Intent(this, ActivitySendBarcode.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_FOR_SEND_ARRAY_LIST, resultsOfScan);
+        bundle.putSerializable(Constants.KEY_FOR_SEND_ARRAY_LIST, barcodes);
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 
     //Валидатор
-    // todo реализовать валидатор
+    // todo реализовать валидатор. Соответствует ли отсканированная строка какому-то шаблону
     private boolean validator() {
         return true;
     }

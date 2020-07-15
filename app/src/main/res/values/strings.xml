@@ -13,5 +13,6 @@
     <string name="listScannedBarCodes">Список отсканированных кодов</string>
     <string name="send">Отправить</string>
     <string name="check">Проверить</string>
+    <string name="button_text_check_and_send">Проверить и отправить</string>
 
 </resources>
