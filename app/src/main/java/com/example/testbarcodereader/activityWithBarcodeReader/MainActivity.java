@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         super.onDestroy();
         setOfBarcode.clear();
         barcodes.clear();
-        clearSP();
+        clearSharedPreferences();
         Log.i("qwerty123", "onDestroy");
     }
 
@@ -227,7 +227,9 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         count = preferences.getInt(Constants.KEY_FOR_COUNT, 0);
         setOfBarcode = (HashSet) preferences.getStringSet(Constants.KEY_FOR_SET, new HashSet<String>());
 
-/*        barcodes.clear();
+
+/*      barcodes.clear();
+
         int size = preferences.getInt("Status_size", 0);
 
         //todo Сделать добавлене в обратном порядке
@@ -238,11 +240,13 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
             }
         }
         //переворот в обратном порядке
-        Collections.reverse(barcodes);*/
+        Collections.reverse(barcodes);
+*/
 
         String stringFromPreferences = preferences.getString("key_for_arrayList", "");
         if (!stringFromPreferences.isEmpty()) {
             barcodes = converter.stringToArrayListMyBarcodes(stringFromPreferences);
+            //rvAdapter.notifyDataSetChanged();
         }
         Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
     }
@@ -367,7 +371,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     }
 
     //метод для отчистки SharedPreferences
-    private void clearSP() {
+    private void clearSharedPreferences() {
         preferences = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();

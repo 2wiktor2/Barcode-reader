@@ -17,10 +17,10 @@ import java.util.ArrayList;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
-    private ArrayList<MyBarcode> resultsOfScan;
+    private ArrayList<MyBarcode> myBarcodes;
 
-    public RVAdapter(ArrayList<MyBarcode> resultsOfScan) {
-        this.resultsOfScan = resultsOfScan;
+    public RVAdapter(ArrayList<MyBarcode> myBarcodes) {
+        this.myBarcodes = myBarcodes;
     }
 
     @NonNull
@@ -36,7 +36,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
         // Установка цвета на recyclerView
         holder.changeBackground(position);
 
-        MyBarcode barcode = resultsOfScan.get(position);
+        MyBarcode barcode = myBarcodes.get(position);
         holder.textViewResult.setText(barcode.getBarcodeResult());
         holder.textViewNumbers.setText(String.valueOf(barcode.getAmountOfNumbers()));
         holder.textViewLetters.setText(String.valueOf(barcode.getAmountOfLetters()));
@@ -44,7 +44,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return resultsOfScan.size();
+        return myBarcodes.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
