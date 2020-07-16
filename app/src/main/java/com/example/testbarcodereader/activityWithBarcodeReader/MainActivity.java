@@ -28,11 +28,11 @@ import com.example.testbarcodereader.activitySend.ActivitySendBarcode;
 import com.example.testbarcodereader.activityWithBarcodeReader.adapter.RVAdapter;
 import com.example.testbarcodereader.data.MyBarcode;
 import com.example.testbarcodereader.utils.Constants;
+import com.example.testbarcodereader.utils.Converter;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.notbytes.barcode_reader.BarcodeReaderFragment;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private TextView textViewCountScannedBarCode;
     private HashSet<String> setOfBarcode;
     private int setSize;
+
+    Converter converter;
 
     SharedPreferences preferences;
 
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         textViewCountScannedBarCode = findViewById(R.id.textViewCountScanedBarCode);
 
         setOfBarcode = new HashSet<>();
+        converter = new Converter();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerViewResults.setLayoutManager(linearLayoutManager);
@@ -202,13 +205,16 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         editor.putInt(Constants.KEY_FOR_SELECTED_QUANTITY, selectedQuantity);
         editor.putInt(Constants.KEY_FOR_COUNT, count);
 
-        editor.putInt("Status_size", barcodes.size());
+        String s = new Converter().arrayListBarcodesToString(barcodes);
+        editor.putString("key_for_arrayList", s);
+
+/*        editor.putInt("Status_size", barcodes.size());
         for (int i = 0; i < barcodes.size(); i++) {
             MyBarcode barcode = barcodes.get(i);
             String s = barcode.getBarcodeResult();
             editor.remove("Status_" + i);
             editor.putString("Status_" + i, s);
-        }
+        }*/
         editor.putStringSet("SET", setOfBarcode);
         editor.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
@@ -219,9 +225,9 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         preferences = getPreferences(MODE_PRIVATE);
         selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 21);
         count = preferences.getInt(Constants.KEY_FOR_COUNT, 0);
-        setOfBarcode = (HashSet)preferences.getStringSet(Constants.KEY_FOR_SET, new HashSet<String>());
+        setOfBarcode = (HashSet) preferences.getStringSet(Constants.KEY_FOR_SET, new HashSet<String>());
 
-        barcodes.clear();
+/*        barcodes.clear();
         int size = preferences.getInt("Status_size", 0);
 
         //todo Сделать добавлене в обратном порядке
@@ -232,9 +238,15 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
             }
         }
         //переворот в обратном порядке
-        Collections.reverse(barcodes);
+        Collections.reverse(barcodes);*/
+
+        String stringFromPreferences = preferences.getString("key_for_arrayList", "");
+        if (!stringFromPreferences.isEmpty()) {
+            barcodes = converter.stringToArrayListMyBarcodes(stringFromPreferences);
+        }
         Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
     }
+
 
     //Меню в toolbar-е
     @Override
