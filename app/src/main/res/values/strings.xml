@@ -14,5 +14,14 @@
     <string name="send">Отправить</string>
     <string name="check">Проверить</string>
     <string name="button_text_check_and_send">Проверить и отправить</string>
+    <string name="barcode_scanner">Сканер штрихкода</string>
+    <string name="choose_type_of_scan">Выберите тип сканирования</string>
+    <string name="on">Вкл</string>
+    <string name="off">Выкл</string>
+    <string name="flash_light">Вспышка</string>
+    <string name="button_text_scan_gateway">Сканирование шлюза</string>
+    <string name="button_text_scan_energy_meter">Сканирование счетчика</string>
+    <string name="button_text_scan_zigbee_module">Сканирование модуля ZigBee</string>
+    <string name="button_text_scan_router">Сканирование роутера</string>
 
 </resources>
