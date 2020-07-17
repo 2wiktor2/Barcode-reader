@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +31,7 @@ import com.example.testbarcodereader.activityWithBarcodeReader.adapter.RVAdapter
 import com.example.testbarcodereader.data.MyBarcode;
 import com.example.testbarcodereader.utils.Constants;
 import com.example.testbarcodereader.utils.Converter;
+import com.example.testbarcodereader.utils.MyDialogs;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.notbytes.barcode_reader.BarcodeReaderFragment;
 
@@ -39,7 +42,7 @@ import java.util.List;
 
 import static com.notbytes.barcode_reader.BarcodeReaderFragment.newInstance;
 
-public class MainActivity extends AppCompatActivity implements BarcodeReaderFragment.BarcodeReaderListener {
+public class MainActivity extends AppCompatActivity implements BarcodeReaderFragment.BarcodeReaderListener, SoundPool.OnLoadCompleteListener {
 
     //todo ИСПРАВИТь иногда открываются сразу два окна акривити
     private ArrayList<MyBarcode> barcodes = new ArrayList<>();
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private int setSize;
 
     Converter converter;
-
+    MyDialogs dialogs;
     SharedPreferences preferences;
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
@@ -57,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private int count;
     //Ограничение на сканирование штрих-кодов
     private int selectedQuantity;
+
+    MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
 
         setOfBarcode = new HashSet<>();
         converter = new Converter();
+        dialogs = new MyDialogs(this);
+
+        mp = MediaPlayer.create(this, R.raw.beep);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerViewResults.setLayoutManager(linearLayoutManager);
@@ -146,15 +154,27 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
 
     @Override
     public void onScanned(Barcode barcode) {
-        // добавление отсканированного штрихкода в hashSet
 
+        try {
+            if (mp.isPlaying()) {
+                mp.stop();
+                mp.release();
+                mp = MediaPlayer.create(this, R.raw.beep);
+            }
+            mp.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        // добавление отсканированного штрихкода в hashSet
         if (setOfBarcode.add(barcode.rawValue)) {
             barcodes.add(0, separateResult(barcode.rawValue));
             setSize = setOfBarcode.size();
         } else {
+            dialogs.createWarningDuplicateBarcodeDialog(barcode.rawValue);
             Toast.makeText(this, "Такой штрих-код уже отсканирован", Toast.LENGTH_SHORT).show();
         }
-
 
         rvAdapter.notifyDataSetChanged();
         count = barcodes.size();
@@ -371,6 +391,12 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         editor.clear();
         editor.apply();
         finish();
+    }
+
+    //для раюоты со звуком
+    @Override
+    public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+        Log.i("qwertyu", "onLoadComplete, sampleId = " + sampleId + ", status = " + status);
     }
 }
 
