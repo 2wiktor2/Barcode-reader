@@ -29,5 +29,4 @@ public class MyBarcode implements Serializable {
     public int getAmountOfLetters() {
         return amountOfLetters;
     }
-
 }

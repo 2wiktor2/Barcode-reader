@@ -33,6 +33,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.notbytes.barcode_reader.BarcodeReaderFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -206,17 +207,13 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         editor.putInt(Constants.KEY_FOR_SELECTED_QUANTITY, selectedQuantity);
         editor.putInt(Constants.KEY_FOR_COUNT, count);
 
-        String s = new Converter().arrayListBarcodesToString(barcodes);
-        editor.putString("key_for_arrayList", s);
-
-        //Старый вариант
-/*        editor.putInt("Status_size", barcodes.size());
+        editor.putInt("Status_size", barcodes.size());
         for (int i = 0; i < barcodes.size(); i++) {
             MyBarcode barcode = barcodes.get(i);
             String s = barcode.getBarcodeResult();
             editor.remove("Status_" + i);
             editor.putString("Status_" + i, s);
-        }*/
+        }
         editor.putStringSet("SET", setOfBarcode);
         editor.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
@@ -230,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         setOfBarcode = (HashSet) preferences.getStringSet(Constants.KEY_FOR_SET, new HashSet<String>());
 
 
-/*      barcodes.clear();
+        barcodes.clear();
 
         int size = preferences.getInt("Status_size", 0);
 
@@ -243,13 +240,8 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         }
         //переворот в обратном порядке
         Collections.reverse(barcodes);
-*/
 
-        String stringFromPreferences = preferences.getString("key_for_arrayList", "");
-        if (!stringFromPreferences.isEmpty()) {
-            barcodes = converter.stringToArrayListMyBarcodes(stringFromPreferences);
-            //rvAdapter.notifyDataSetChanged();
-        }
+        rvAdapter.notifyDataSetChanged();
         Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
     }
 

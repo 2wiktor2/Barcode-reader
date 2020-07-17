@@ -1,5 +1,7 @@
 package com.example.testbarcodereader.utils;
 
+import android.util.Log;
+
 import com.example.testbarcodereader.data.MyBarcode;
 import com.google.gson.Gson;
 
@@ -58,9 +60,14 @@ public class Converter {
         // Теперь приводим ArrayList типа Object к ArrayList типа MyBarCode
         ArrayList<MyBarcode> myBarcodes = new ArrayList<>();
         //теперь нужно поместить ArrayList типа Object в ArrayList типа MyBarCode в цикле
-        for (Object o : objects) {
+        for (Object obj : objects) {
 
-            myBarcodes.add(gson.fromJson(o.toString(), MyBarcode.class));
+            MyBarcode b = gson.fromJson(obj.toString(), MyBarcode.class);
+            myBarcodes.add(b);
+
+            Log.i("qwertyu", "barcodeResult = "+ b.getBarcodeResult());
+            Log.i("qwertyu", "amountOfNumbers = "+ b.getAmountOfNumbers());
+            Log.i("qwertyu", "amountOfLetters = "+ b.getAmountOfLetters());
         }
         return myBarcodes;
     }
