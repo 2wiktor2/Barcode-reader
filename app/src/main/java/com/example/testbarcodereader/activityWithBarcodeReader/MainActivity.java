@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
             Toast.makeText(this, "Такой штрих-код уже отсканирован", Toast.LENGTH_SHORT).show();
         }
 
+
         rvAdapter.notifyDataSetChanged();
         count = barcodes.size();
         textViewCountScannedBarCode.setText(updateInfoText(setSize));
@@ -208,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         String s = new Converter().arrayListBarcodesToString(barcodes);
         editor.putString("key_for_arrayList", s);
 
+        //Старый вариант
 /*        editor.putInt("Status_size", barcodes.size());
         for (int i = 0; i < barcodes.size(); i++) {
             MyBarcode barcode = barcodes.get(i);
