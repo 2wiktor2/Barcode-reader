@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     @Override
     public void onScanned(Barcode barcode) {
 
+        //Звук
         try {
             if (mp.isPlaying()) {
                 mp.stop();
@@ -166,15 +167,19 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
             e.printStackTrace();
         }
 
-
         // добавление отсканированного штрихкода в hashSet
-        if (setOfBarcode.add(barcode.rawValue)) {
-            barcodes.add(0, separateResult(barcode.rawValue));
-            setSize = setOfBarcode.size();
+        if (validator(barcode.displayValue)) {
+            if (setOfBarcode.add(barcode.rawValue)) {
+                barcodes.add(0, separateResult(barcode.rawValue));
+                setSize = setOfBarcode.size();
+            } else {
+                dialogs.createWarningDuplicateBarcodeDialog(barcode.rawValue);
+                Toast.makeText(this, "Такой штрих-код уже отсканирован", Toast.LENGTH_SHORT).show();
+            }
         } else {
-            dialogs.createWarningDuplicateBarcodeDialog(barcode.rawValue);
-            Toast.makeText(this, "Такой штрих-код уже отсканирован", Toast.LENGTH_SHORT).show();
+            dialogs.createWarningWrongMacAdresDialog(barcode.rawValue);
         }
+
 
         rvAdapter.notifyDataSetChanged();
         count = barcodes.size();
@@ -242,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     //Загрузка данных из sharedPreferences
     private void loadData() {
         preferences = getPreferences(MODE_PRIVATE);
-        selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 21);
+        selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 11);
         count = preferences.getInt(Constants.KEY_FOR_COUNT, 0);
         setOfBarcode = (HashSet) preferences.getStringSet(Constants.KEY_FOR_SET, new HashSet<String>());
 
@@ -380,8 +385,12 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
 
     //Валидатор
     // todo реализовать валидатор. Соответствует ли отсканированная строка какому-то шаблону
-    private boolean validator() {
-        return true;
+    private boolean validator(String s) {
+        if (s.length() != 16) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     //метод для отчистки SharedPreferences
