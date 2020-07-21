@@ -2,16 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/info"
+        android:title="@string/instruction"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/set_count"
-        android:title="Set count"
+        android:title="@string/threshold"
         app:showAsAction="never" />
-
     <item
         android:id="@+id/check"
-        android:title="Проверка"
+        android:title="@string/checking"
         app:showAsAction="never" />
     <item
         android:id="@+id/delete"
-        android:title="Отчистить"
+        android:title="@string/clear"
         app:showAsAction="never" />
 </menu>

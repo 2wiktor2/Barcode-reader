@@ -48,45 +48,83 @@
                 android:id="@+id/button_scan_gateway"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="18dp"
                 android:padding="16dp"
                 android:text="@string/button_text_scan_gateway"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_choose_type" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MAC + IMAI"
+                android:textSize="10sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_scan_gateway" />
+
             <Button
                 android:id="@+id/button_scan_energy_meter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="18dp"
                 android:padding="16dp"
                 android:text="@string/button_text_scan_energy_meter"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_scan_gateway" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Серийный номер"
+                android:textSize="10sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_scan_energy_meter" />
+
             <Button
                 android:id="@+id/button_scan_zigBee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="18dp"
                 android:padding="16dp"
                 android:text="@string/button_text_scan_zigbee_module"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_scan_energy_meter" />
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MAC"
+                android:textSize="10sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_scan_zigBee" />
+
             <Button
                 android:id="@+id/button_scan_router"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_margin="18dp"
                 android:padding="16dp"
                 android:text="@string/button_text_scan_router"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_scan_zigBee" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MAC"
+                android:textSize="10sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_scan_router" />
+
 
             <TextView
                 android:id="@+id/text_view_title_flash"
@@ -103,16 +141,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
                 android:text="@string/off"
-                app:layout_constraintRight_toLeftOf="@id/switcher_flash_light"
-                app:layout_constraintBaseline_toBaselineOf="@id/switcher_flash_light" />
+                app:layout_constraintBaseline_toBaselineOf="@id/switcher_flash_light"
+                app:layout_constraintRight_toLeftOf="@id/switcher_flash_light" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:text="@string/on"
-                app:layout_constraintLeft_toRightOf="@id/switcher_flash_light"
-                app:layout_constraintBaseline_toBaselineOf="@id/switcher_flash_light" />
+                app:layout_constraintBaseline_toBaselineOf="@id/switcher_flash_light"
+                app:layout_constraintLeft_toRightOf="@id/switcher_flash_light" />
 
             <Switch
                 android:id="@+id/switcher_flash_light"

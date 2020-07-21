@@ -23,5 +23,10 @@
     <string name="button_text_scan_energy_meter">Сканирование счетчика</string>
     <string name="button_text_scan_zigbee_module">Сканирование модуля ZigBee</string>
     <string name="button_text_scan_router">Сканирование роутера</string>
+    <string name="instruction">Инструкция</string>
+    <string name="checking">Проверка</string>
+    <string name="clear">Отчистить</string>
+    <string name="threshold">Порог</string>
+    <string name="ok">Ok</string>
 
 </resources>

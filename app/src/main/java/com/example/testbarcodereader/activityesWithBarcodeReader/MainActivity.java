@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private ArrayList<MyBarcode> barcodes = new ArrayList<>();
     private RVAdapter rvAdapter;
     private TextView textViewCountScannedBarCode;
-    private HashSet<String> setOfBarcode;
+    private HashSet setOfBarcode;
     private int setSize;
 
     Converter converter;
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     protected void onResume() {
         super.onResume();
         loadData();
+        setSize = setOfBarcode.size();
         textViewCountScannedBarCode.setText(updateInfoText(setSize));
 
         Log.i("qwerty123", "onResume");
@@ -239,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
             editor.remove("Status_" + i);
             editor.putString("Status_" + i, s);
         }
-        editor.putStringSet("SET", setOfBarcode);
+        editor.putStringSet(Constants.KEY_FOR_SET, setOfBarcode);
         editor.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
     }
@@ -247,11 +248,12 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     //Загрузка данных из sharedPreferences
     private void loadData() {
         preferences = getPreferences(MODE_PRIVATE);
-        selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 11);
+        selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 2);
         count = preferences.getInt(Constants.KEY_FOR_COUNT, 0);
-        setOfBarcode = (HashSet) preferences.getStringSet(Constants.KEY_FOR_SET, new HashSet<String>());
-
-
+        setOfBarcode = (HashSet<String>) preferences.getStringSet(Constants.KEY_FOR_SET, new HashSet<String>());
+        if(setOfBarcode != null){
+            Log.i("qwertyu", "Длина SET-а = " + setOfBarcode.size());
+        }
         barcodes.clear();
 
         int size = preferences.getInt("Status_size", 0);
@@ -341,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private void createWarningDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("У Вас есть несохраненные данные!")
-                .setMessage("При выходе из приложения все несохраненные данные удалятся!\nВыйти из приложения?")
+                .setMessage("При переходе на главный экран\nвсе несохраненные данные удалятся!")
                 .setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -397,12 +399,13 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private void clearSharedPreferences() {
         preferences = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+
         editor.clear();
         editor.apply();
         finish();
     }
 
-    //для раюоты со звуком
+    //для работы со звуком
     @Override
     public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
         Log.i("qwertyu", "onLoadComplete, sampleId = " + sampleId + ", status = " + status);
