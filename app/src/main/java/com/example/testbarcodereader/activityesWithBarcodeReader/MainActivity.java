@@ -20,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -67,6 +68,16 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+
+        //Установить стрелку в toolBar
+/*        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }*/
+
         RecyclerView recyclerViewResults = findViewById(R.id.recyclerView);
         textViewCountScannedBarCode = findViewById(R.id.textViewCountScanedBarCode);
 
@@ -251,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 2);
         count = preferences.getInt(Constants.KEY_FOR_COUNT, 0);
         setOfBarcode = (HashSet<String>) preferences.getStringSet(Constants.KEY_FOR_SET, new HashSet<String>());
-        if(setOfBarcode != null){
+        if (setOfBarcode != null) {
             Log.i("qwertyu", "Длина SET-а = " + setOfBarcode.size());
         }
         barcodes.clear();
