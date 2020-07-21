@@ -1,16 +1,13 @@
-package com.example.testbarcodereader.activityWithBarcodeReader.fragments;
+package com.example.testbarcodereader.activityesWithBarcodeReader.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.example.testbarcodereader.R;
 
 public class FragmentPlay extends Fragment implements View.OnClickListener {
 

@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activityWithBarcodeReader.fragments.FragmentPlay"></activity>
+        <activity android:name=".activityesWithBarcodeReader.fragments.FragmentPlay"></activity>
         <activity
             android:name=".activityGreeting.GreetingActivity"
             android:screenOrientation="portrait">
@@ -27,7 +27,7 @@
             android:name=".activitySend.ActivitySendBarcode"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activityWithBarcodeReader.MainActivity"
+            android:name=".activityesWithBarcodeReader.MainActivity"
             android:screenOrientation="portrait" />
     </application>
 

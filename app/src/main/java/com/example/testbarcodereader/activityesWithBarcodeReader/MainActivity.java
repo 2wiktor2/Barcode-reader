@@ -1,4 +1,4 @@
-package com.example.testbarcodereader.activityWithBarcodeReader;
+package com.example.testbarcodereader.activityesWithBarcodeReader;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testbarcodereader.R;
 import com.example.testbarcodereader.activitySend.ActivitySendBarcode;
-import com.example.testbarcodereader.activityWithBarcodeReader.adapter.RVAdapter;
+import com.example.testbarcodereader.activityesWithBarcodeReader.adapter.RVAdapter;
 import com.example.testbarcodereader.data.MyBarcode;
 import com.example.testbarcodereader.utils.Constants;
 import com.example.testbarcodereader.utils.Converter;

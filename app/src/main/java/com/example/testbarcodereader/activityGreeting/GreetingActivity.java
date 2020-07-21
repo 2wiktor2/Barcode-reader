@@ -10,7 +10,7 @@ import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.testbarcodereader.R;
-import com.example.testbarcodereader.activityWithBarcodeReader.MainActivity;
+import com.example.testbarcodereader.activityesWithBarcodeReader.MainActivity;
 
 public class GreetingActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
