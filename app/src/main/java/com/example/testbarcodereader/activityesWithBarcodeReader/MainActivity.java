@@ -1,12 +1,15 @@
-package com.example.testbarcodereader.activityWithBarcodeReader;
+package com.example.testbarcodereader.activityesWithBarcodeReader;
 
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,11 +25,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.testbarcodereader.utils.Constants;
 import com.example.testbarcodereader.R;
 import com.example.testbarcodereader.activitySend.ActivitySendBarcode;
-import com.example.testbarcodereader.activityWithBarcodeReader.adapter.RVAdapter;
+import com.example.testbarcodereader.activityesWithBarcodeReader.adapter.RVAdapter;
 import com.example.testbarcodereader.data.MyBarcode;
+import com.example.testbarcodereader.utils.Constants;
+import com.example.testbarcodereader.utils.Converter;
+import com.example.testbarcodereader.utils.MyDialogs;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.notbytes.barcode_reader.BarcodeReaderFragment;
 
@@ -37,13 +42,17 @@ import java.util.List;
 
 import static com.notbytes.barcode_reader.BarcodeReaderFragment.newInstance;
 
-public class MainActivity extends AppCompatActivity implements BarcodeReaderFragment.BarcodeReaderListener {
-    private RecyclerView recyclerViewResults;
-    private ArrayList<MyBarcode> resultsOfScan = new ArrayList<>();
+public class MainActivity extends AppCompatActivity implements BarcodeReaderFragment.BarcodeReaderListener, SoundPool.OnLoadCompleteListener {
+
+    //todo ИСПРАВИТь иногда открываются сразу два окна акривити
+    private ArrayList<MyBarcode> barcodes = new ArrayList<>();
     private RVAdapter rvAdapter;
     private TextView textViewCountScannedBarCode;
-    private HashSet<String> barcodeStrings;
+    private HashSet<String> setOfBarcode;
+    private int setSize;
 
+    Converter converter;
+    MyDialogs dialogs;
     SharedPreferences preferences;
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
@@ -52,19 +61,25 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     //Ограничение на сканирование штрих-кодов
     private int selectedQuantity;
 
+    MediaPlayer mp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerViewResults = findViewById(R.id.recyclerView);
+        RecyclerView recyclerViewResults = findViewById(R.id.recyclerView);
         textViewCountScannedBarCode = findViewById(R.id.textViewCountScanedBarCode);
 
-        barcodeStrings = new HashSet<>();
+        setOfBarcode = new HashSet<>();
+        converter = new Converter();
+        dialogs = new MyDialogs(this);
+
+        mp = MediaPlayer.create(this, R.raw.beep);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerViewResults.setLayoutManager(linearLayoutManager);
 
-        rvAdapter = new RVAdapter(resultsOfScan);
+        rvAdapter = new RVAdapter(barcodes);
         recyclerViewResults.setAdapter(rvAdapter);
 
         addBarcodeReaderFragment();
@@ -74,19 +89,46 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
             }
         }
+
+        Log.i("qwerty123", "onCreate");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         loadData();
-        textViewCountScannedBarCode.setText(updateInfoText());
+        textViewCountScannedBarCode.setText(updateInfoText(setSize));
+
+        Log.i("qwerty123", "onResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         saveData();
+        Log.i("qwerty123", "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("qwerty123", "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        setOfBarcode.clear();
+        barcodes.clear();
+        clearSharedPreferences();
+        Log.i("qwerty123", "onDestroy");
+    }
+
+    @Override
+    public void onBackPressed() {
+        createWarningDialog();
+        // super.onBackPressed();
+        Log.i("qwerty123", "onBackPressed");
     }
 
     @Override
@@ -112,12 +154,36 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
 
     @Override
     public void onScanned(Barcode barcode) {
+
+        //Звук
+        try {
+            if (mp.isPlaying()) {
+                mp.stop();
+                mp.release();
+                mp = MediaPlayer.create(this, R.raw.beep);
+            }
+            mp.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // добавление отсканированного штрихкода в hashSet
-       barcodeStrings.add(barcode.rawValue);
-        //resultsOfScan.add(0, separateResult(barcode.rawValue));
+        if (validator(barcode.displayValue)) {
+            if (setOfBarcode.add(barcode.rawValue)) {
+                barcodes.add(0, separateResult(barcode.rawValue));
+                setSize = setOfBarcode.size();
+            } else {
+                dialogs.createWarningDuplicateBarcodeDialog(barcode.rawValue);
+                Toast.makeText(this, "Такой штрих-код уже отсканирован", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            dialogs.createWarningWrongMacAdresDialog(barcode.rawValue);
+        }
+
+
         rvAdapter.notifyDataSetChanged();
-        count = resultsOfScan.size();
-        textViewCountScannedBarCode.setText(updateInfoText());
+        count = barcodes.size();
+        textViewCountScannedBarCode.setText(updateInfoText(setSize));
         timeToSave();
     }
 
@@ -161,40 +227,49 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     //Сохранение данных в sharedPreferences
     private void saveData() {
         preferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor ed = preferences.edit();
-        ed.putInt(Constants.KEY_FOR_SELECTED_QUANTITY, selectedQuantity);
-        ed.putInt(Constants.KEY_FOR_COUNT, count);
-        ed.putInt("Status_size", resultsOfScan.size());
-        for (int i = 0; i < resultsOfScan.size(); i++) {
-            MyBarcode barcode = resultsOfScan.get(i);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putInt(Constants.KEY_FOR_SELECTED_QUANTITY, selectedQuantity);
+        editor.putInt(Constants.KEY_FOR_COUNT, count);
+
+        editor.putInt("Status_size", barcodes.size());
+        for (int i = 0; i < barcodes.size(); i++) {
+            MyBarcode barcode = barcodes.get(i);
             String s = barcode.getBarcodeResult();
-            ed.remove("Status_" + i);
-            ed.putString("Status_" + i, s);
+            editor.remove("Status_" + i);
+            editor.putString("Status_" + i, s);
         }
-        ed.apply();
+        editor.putStringSet("SET", setOfBarcode);
+        editor.apply();
         Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
     }
 
     //Загрузка данных из sharedPreferences
     private void loadData() {
         preferences = getPreferences(MODE_PRIVATE);
-        selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 7);
-        count = preferences.getInt(Constants.KEY_FOR_COUNT, -1);
+        selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 11);
+        count = preferences.getInt(Constants.KEY_FOR_COUNT, 0);
+        setOfBarcode = (HashSet) preferences.getStringSet(Constants.KEY_FOR_SET, new HashSet<String>());
 
-        resultsOfScan.clear();
+
+        barcodes.clear();
+
         int size = preferences.getInt("Status_size", 0);
 
         //todo Сделать добавлене в обратном порядке
         for (int i = 0; i < size; i++) {
             String sss = preferences.getString("Status_" + i, null);
             if (sss != null) {
-                resultsOfScan.add(0, separateResult(sss));
+                barcodes.add(0, separateResult(sss));
             }
         }
         //переворот в обратном порядке
-        Collections.reverse(resultsOfScan);
+        Collections.reverse(barcodes);
+
+        rvAdapter.notifyDataSetChanged();
         Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
     }
+
 
     //Меню в toolbar-е
     @Override
@@ -231,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
                         // Do something with the selection
                         //mDoneButton.setText(items[item]);
                         selectedQuantity = Integer.parseInt(items[item]);
-                        textViewCountScannedBarCode.setText(updateInfoText());
+                        textViewCountScannedBarCode.setText(updateInfoText(setSize));
                     }
                 });
         AlertDialog alert = builder.create();
@@ -246,9 +321,9 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //отчистка списка
-                        resultsOfScan.clear();
-                        count = resultsOfScan.size();
-                        textViewCountScannedBarCode.setText(updateInfoText());
+                        barcodes.clear();
+                        count = barcodes.size();
+                        textViewCountScannedBarCode.setText(updateInfoText(setSize));
                         rvAdapter.notifyDataSetChanged();
                     }
                 })
@@ -262,9 +337,30 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         alert.show();
     }
 
+    //Диалог предупреждение перед выходом из приложения
+    private void createWarningDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("У Вас есть несохраненные данные!")
+                .setMessage("При выходе из приложения все несохраненные данные удалятся!\nВыйти из приложения?")
+                .setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(R.string.cencel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     //Вставка текста в TextView
-    private String updateInfoText() {
-        return count + " из " + selectedQuantity;
+    private String updateInfoText(int setSize) {
+        return count + " из " + selectedQuantity + "  " + "set = " + setSize;
     }
 
     //Отслеживать колличество отсканированных штрих-кодов и выводить сообщение при превышении порога
@@ -281,10 +377,35 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private void startActivityForCheckAndSend() {
         Intent intent = new Intent(this, ActivitySendBarcode.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.KEY_FOR_SEND_ARRAY_LIST, resultsOfScan);
+        bundle.putSerializable(Constants.KEY_FOR_SEND_ARRAY_LIST, barcodes);
         intent.putExtra(Constants.KEY_BUNDLE, bundle);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
+    }
+
+    //Валидатор
+    // todo реализовать валидатор. Соответствует ли отсканированная строка какому-то шаблону
+    private boolean validator(String s) {
+        if (s.length() != 16) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //метод для отчистки SharedPreferences
+    private void clearSharedPreferences() {
+        preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+        finish();
+    }
+
+    //для раюоты со звуком
+    @Override
+    public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+        Log.i("qwertyu", "onLoadComplete, sampleId = " + sampleId + ", status = " + status);
     }
 }
 

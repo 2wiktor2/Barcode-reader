@@ -3,31 +3,39 @@ package com.example.testbarcodereader.activitySend;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.testbarcodereader.utils.Constants;
 import com.example.testbarcodereader.R;
 import com.example.testbarcodereader.activitySend.adapter.RVAdapter2;
 import com.example.testbarcodereader.data.MyBarcode;
+import com.example.testbarcodereader.utils.Constants;
 
 import java.util.ArrayList;
 
-public class ActivitySendBarcode extends AppCompatActivity {
+public class ActivitySendBarcode extends AppCompatActivity implements View.OnClickListener {
 
     //todo получить список отсканипрованных штрих кодов
     //todo проверить с существующими
     //todo отправить данные
+    //todo При отправке данных и закрытии второго активити отчищать список в первом активити
 
     private ArrayList<MyBarcode> resultsOfScan;
-    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_barecodes);
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        Button buttonCheckAndSend = findViewById(R.id.button_check_and_send);
+
+        buttonCheckAndSend.setOnClickListener(this);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra(Constants.KEY_BUNDLE);
@@ -42,12 +50,26 @@ public class ActivitySendBarcode extends AppCompatActivity {
                 String s = b.getBarcodeResult();
                 Log.d("qwerty", "i = " + (i + 1) + "  " + s);
             }
-            recyclerView = findViewById(R.id.recyclerView);
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
             RVAdapter2 adapter = new RVAdapter2(resultsOfScan);
             recyclerView.setAdapter(adapter);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (validator()) {
+            Toast.makeText(this, "Данные успешно отправлены", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Данные не отправлены", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Валидатор
+    // todo реализовать валидатор. Есть ли такие данные на сервере
+    private boolean validator() {
+        return true;
     }
 }

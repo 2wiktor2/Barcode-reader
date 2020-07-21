@@ -1,4 +1,4 @@
-package com.example.testbarcodereader.activityWithBarcodeReader;
+package com.example.testbarcodereader.activityesWithBarcodeReader.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
