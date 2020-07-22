@@ -6,9 +6,9 @@
     <string name="text_tv_result_of_scan">Результат сканирования</string>
     <string name="letters">Буквы</string>
     <string name="numbers">Цифры</string>
-    <string name="coutOfBarCode">Колличество отсканированных штрих-кодов:</string>
+    <string name="countOfBarCode">Колличество отсканированных штрих-кодов:</string>
     <string name="delete">Удалить</string>
-    <string name="cencel">Отмена</string>
+    <string name="cancel">Отмена</string>
     <string name="exit">Выход</string>
     <string name="listScannedBarCodes">Список отсканированных кодов</string>
     <string name="send">Отправить</string>
