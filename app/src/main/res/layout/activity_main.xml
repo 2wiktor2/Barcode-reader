@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -12,26 +13,6 @@
         android:background="@color/colorPrimaryDark"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Нужно отсканировать" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Общее колличество отсканированных" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Осталось отсканировать до отправки" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Порог отправки" />
 
     <FrameLayout
         android:id="@+id/fm_container"
@@ -73,22 +54,17 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textView_set_of_barcodes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Общее колличество отсканированных" />
 
         <TextView
-            android:id="@+id/textViewCountScanedBarCodeTitle"
-            android:layout_width="match_parent"
+            android:id="@+id/textView_threshold"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/coutOfBarCode" />
-
-        <TextView
-            android:id="@+id/textViewCountScanedBarCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="0"
-            android:textColor="#000000"
-            android:textSize="24sp" />
+            android:text="Порог отправки" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

@@ -4,11 +4,12 @@
     <item
         android:id="@+id/info"
         android:title="@string/instruction"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/set_count"
-        android:title="@string/threshold"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/auto_save_set_count"
+        android:title="@string/auto_save"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/check"
         android:title="@string/checking"

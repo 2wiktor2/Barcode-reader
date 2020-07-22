@@ -24,9 +24,9 @@
     <string name="button_text_scan_zigbee_module">Сканирование модуля ZigBee</string>
     <string name="button_text_scan_router">Сканирование роутера</string>
     <string name="instruction">Инструкция</string>
-    <string name="checking">Проверка</string>
+    <string name="checking">Сохранить</string>
     <string name="clear">Отчистить</string>
-    <string name="threshold">Порог отправки</string>
+    <string name="auto_save">Автосохранение</string>
     <string name="ok">OK</string>
 
 </resources>

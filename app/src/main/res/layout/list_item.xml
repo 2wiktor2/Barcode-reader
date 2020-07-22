@@ -4,19 +4,7 @@
     android:id="@+id/constrainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:padding="8dp">
-
-    <TextView
-        android:id="@+id/textViewResultOfScanTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/text_tv_result_of_scan"
-        android:textSize="12sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_margin="8dp">
 
     <TextView
         android:id="@+id/textViewResultOfScan"
@@ -28,29 +16,7 @@
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewResultOfScanTitle" />
-
-    <TextView
-        android:id="@+id/textViewLettersTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/letters"
-        android:textSize="12sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/textViewNumbersTitle"
-        app:layout_constraintTop_toBottomOf="@id/textViewResultOfScan" />
-
-    <TextView
-        android:id="@+id/textViewNumbersTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/numbers"
-        android:textSize="12sp"
-        app:layout_constraintLeft_toRightOf="@id/textViewLettersTitle"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewResultOfScan" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewLetters"
@@ -59,10 +25,10 @@
         android:gravity="center"
         android:text="@string/letters"
         android:textColor="@color/colorBlack"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="@id/textViewLettersTitle"
-        app:layout_constraintRight_toRightOf="@+id/textViewLettersTitle"
-        app:layout_constraintTop_toBottomOf="@id/textViewLettersTitle" />
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewResultOfScan" />
 
     <TextView
         android:id="@+id/textViewNumbers"
@@ -71,11 +37,10 @@
         android:gravity="center"
         android:text="@string/numbers"
         android:textColor="@color/colorBlack"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="@id/textViewNumbersTitle"
-        app:layout_constraintLeft_toRightOf="@id/textViewLettersTitle"
-        app:layout_constraintRight_toRightOf="@id/textViewNumbersTitle"
-        app:layout_constraintTop_toBottomOf="@id/textViewLettersTitle" />
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewResultOfScan" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

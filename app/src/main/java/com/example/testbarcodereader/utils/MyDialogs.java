@@ -61,6 +61,7 @@ public class MyDialogs {
     }
 
 
+
 /*
     //Диалог выбора количетва сканируемых штрихкодов
     private void createDialog() {

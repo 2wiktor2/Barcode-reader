@@ -50,11 +50,12 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     //todo ИСПРАВИТь иногда открываются сразу два окна акривити
     private ArrayList<MyBarcode> barcodes = new ArrayList<>();
     private RVAdapter rvAdapter;
-    private TextView textViewCountScannedBarCode;
+    // Всего отсканировано
+    private TextView textViewSetOfBarcodes;
+    // порог отправки. Автосохранение
+    private TextView textViewThresholdAutoSave;
     private HashSet setOfBarcode;
     private int setSize;
-    private ImageButton imageButtonStartScan;
-    private ImageButton imageButtonStopScan;
 
     Converter converter;
     MyDialogs dialogs;
@@ -66,8 +67,8 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     //Колличество отсканированыых штрих-кодов
     private int count;
-    //Ограничение на сканирование штрих-кодов
-    private int selectedQuantity;
+    //Ограничение на сканирование штрих-кодов. Автосохранение
+    private int selectedQuantityAutoSave;
 
     MediaPlayer mp;
 
@@ -79,18 +80,13 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
 
-        //Установить стрелку в toolBar
-/*        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }*/
-
         fragmentManager = getSupportFragmentManager();
 
         RecyclerView recyclerViewResults = findViewById(R.id.recyclerView);
-        textViewCountScannedBarCode = findViewById(R.id.textViewCountScanedBarCode);
-        imageButtonStartScan = findViewById(R.id.image_button_start_scan);
-        imageButtonStopScan = findViewById(R.id.image_button_stop_scan);
+        textViewSetOfBarcodes = findViewById(R.id.textView_set_of_barcodes);
+        textViewThresholdAutoSave = findViewById(R.id.textView_threshold);
+        ImageButton imageButtonStartScan = findViewById(R.id.image_button_start_scan);
+        ImageButton imageButtonStopScan = findViewById(R.id.image_button_stop_scan);
         imageButtonStartScan.setOnClickListener(this);
         imageButtonStopScan.setOnClickListener(this);
 
@@ -115,8 +111,6 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
                 requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
             }
         }
-
-        Log.i("qwerty123", "onCreate");
     }
 
     @Override
@@ -124,22 +118,18 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         super.onResume();
         loadData();
         setSize = setOfBarcode.size();
-        textViewCountScannedBarCode.setText(updateInfoText(setSize));
-
-        Log.i("qwerty123", "onResume");
+        updateInfoTextViews(setSize);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         saveData();
-        Log.i("qwerty123", "onPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i("qwerty123", "onStop");
     }
 
     @Override
@@ -148,14 +138,11 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         setOfBarcode.clear();
         barcodes.clear();
         clearSharedPreferences();
-        Log.i("qwerty123", "onDestroy");
     }
 
     @Override
     public void onBackPressed() {
         createWarningDialog();
-        // super.onBackPressed();
-        Log.i("qwerty123", "onBackPressed");
     }
 
     @Override
@@ -220,7 +207,8 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
 
         rvAdapter.notifyDataSetChanged();
         count = barcodes.size();
-        textViewCountScannedBarCode.setText(updateInfoText(setSize));
+
+        updateInfoTextViews(setSize);
         timeToSave();
     }
 
@@ -255,8 +243,6 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
             } else if (Character.isLetter(result.charAt(i))) {
                 amountOfLetters++;
             }
-            //Количество остальных символов
-            //amountOfSymbols = result.length() - amountOfNumbers - amountOfLetters;
         }
         return new MyBarcode(result, amountOfNumbers, amountOfLetters);
     }
@@ -266,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         preferences = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        editor.putInt(Constants.KEY_FOR_SELECTED_QUANTITY, selectedQuantity);
+        editor.putInt(Constants.KEY_FOR_SELECTED_QUANTITY, selectedQuantityAutoSave);
         editor.putInt(Constants.KEY_FOR_COUNT, count);
 
         editor.putInt("Status_size", barcodes.size());
@@ -284,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     //Загрузка данных из sharedPreferences
     private void loadData() {
         preferences = getPreferences(MODE_PRIVATE);
-        selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 2);
+        selectedQuantityAutoSave = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 2);
         count = preferences.getInt(Constants.KEY_FOR_COUNT, 0);
         setOfBarcode = (HashSet<String>) preferences.getStringSet(Constants.KEY_FOR_SET, new HashSet<String>());
         if (setOfBarcode != null) {
@@ -320,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.set_count:
+            case R.id.auto_save_set_count:
                 createDialog();
                 break;
             case R.id.check:
@@ -346,8 +332,8 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
                     public void onClick(DialogInterface dialog, int item) {
                         // Do something with the selection
                         //mDoneButton.setText(items[item]);
-                        selectedQuantity = Integer.parseInt(items[item]);
-                        textViewCountScannedBarCode.setText(updateInfoText(setSize));
+                        selectedQuantityAutoSave = Integer.parseInt(items[item]);
+                        updateInfoTextViews(setSize);
                     }
                 });
         AlertDialog alert = builder.create();
@@ -364,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
                         //отчистка списка
                         barcodes.clear();
                         count = barcodes.size();
-                        textViewCountScannedBarCode.setText(updateInfoText(setSize));
+                        updateInfoTextViews(setSize);
                         rvAdapter.notifyDataSetChanged();
                     }
                 })
@@ -399,15 +385,16 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         alert.show();
     }
 
-    //Вставка текста в TextView
-    private String updateInfoText(int setSize) {
-        return count + " из " + selectedQuantity + "  " + "set = " + setSize;
+    //Информация. Вывод пользователю
+    private void updateInfoTextViews(int setSize) {
+        textViewSetOfBarcodes.setText("Всего отсканировано : " + setSize);
+        textViewThresholdAutoSave.setText("Автосохранение: " + count + "/" + selectedQuantityAutoSave);
     }
 
     //Отслеживать колличество отсканированных штрих-кодов и выводить сообщение при превышении порога
     //Останавливать сканер
     private void timeToSave() {
-        if (count >= selectedQuantity) {
+        if (count >= selectedQuantityAutoSave) {
             Toast.makeText(this, "Пора сохраниться", Toast.LENGTH_LONG).show();
             //Если количество отсканированных штрих кодов праевышает погог,
             // то переходим на активити для проверки и отправки

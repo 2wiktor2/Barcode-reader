@@ -43,8 +43,8 @@ public class GreetingActivity extends AppCompatActivity implements View.OnClickL
         buttonScanZigBee = findViewById(R.id.button_scan_zigBee);
         buttonScanRouter = findViewById(R.id.button_scan_router);
 
-        buttonScanGateway.setOnClickListener(this);
-        buttonScanEnergyMeter.setOnClickListener(this);
+        //buttonScanGateway.setOnClickListener(this);
+        //buttonScanEnergyMeter.setOnClickListener(this);
         buttonScanZigBee.setOnClickListener(this);
         buttonScanRouter.setOnClickListener(this);
 
