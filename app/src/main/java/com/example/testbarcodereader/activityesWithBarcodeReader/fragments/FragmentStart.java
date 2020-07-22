@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,10 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.testbarcodereader.R;
 
-public class FragmentStart extends Fragment {
-
-    private Button buttonStartScan;
-    private Button buttonStopScan;
+public class FragmentStart extends Fragment implements View.OnClickListener {
 
     public static FragmentStart newInstanceFragmentStart() {
         Bundle args = new Bundle();
@@ -34,7 +31,13 @@ public class FragmentStart extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        buttonStartScan = getActivity().findViewById(R.id.button_start_scan_in_fragment);
-        buttonStopScan = getActivity().findViewById(R.id.button_stop_scan_in_fragment);
+        ImageButton buttonStartScan = getActivity().findViewById(R.id.button_start_scan_in_fragment);
+        buttonStartScan.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        //Вызов фрагмента со сканером
+
     }
 }

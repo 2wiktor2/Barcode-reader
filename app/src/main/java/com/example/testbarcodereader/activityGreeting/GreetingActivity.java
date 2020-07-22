@@ -93,7 +93,7 @@ public class GreetingActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_memu_main_activity, menu);
+        getMenuInflater().inflate(R.menu.toolbar_memu_in_greeting_activity, menu);
         return true;
     }
 
