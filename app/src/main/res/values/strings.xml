@@ -10,7 +10,7 @@
     <string name="delete">Удалить</string>
     <string name="cancel">Отмена</string>
     <string name="exit">Выход</string>
-    <string name="listScannedBarCodes">Список отсканированных кодов</string>
+    <string name="listScannedBarCodes">Список отсканированных штрихкодов</string>
     <string name="send">Отправить</string>
     <string name="check">Проверить</string>
     <string name="button_text_check_and_send">Проверить и отправить</string>
@@ -26,7 +26,7 @@
     <string name="instruction">Инструкция</string>
     <string name="checking">Проверка</string>
     <string name="clear">Отчистить</string>
-    <string name="threshold">Порог</string>
-    <string name="ok">Ok</string>
+    <string name="threshold">Порог отправки</string>
+    <string name="ok">OK</string>
 
 </resources>

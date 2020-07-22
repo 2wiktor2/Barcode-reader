@@ -2,15 +2,20 @@ package com.example.testbarcodereader.activityGreeting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.testbarcodereader.R;
 import com.example.testbarcodereader.activityesWithBarcodeReader.MainActivity;
+import com.example.testbarcodereader.utils.MyDialogs;
 
 public class GreetingActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -22,10 +27,17 @@ public class GreetingActivity extends AppCompatActivity implements View.OnClickL
     private Button buttonScanZigBee;
     private Button buttonScanRouter;
 
+    private MyDialogs myDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_greeting);
+
+        Toolbar toolbar = findViewById(R.id.toolBar);
+        toolbar.setTitle(getResources().getString(R.string.barcode_scanner));
+        setSupportActionBar(toolbar);
+
         buttonScanGateway = findViewById(R.id.button_scan_gateway);
         buttonScanEnergyMeter = findViewById(R.id.button_scan_energy_meter);
         buttonScanZigBee = findViewById(R.id.button_scan_zigBee);
@@ -38,6 +50,8 @@ public class GreetingActivity extends AppCompatActivity implements View.OnClickL
 
         flashLightSwitch = findViewById(R.id.switcher_flash_light);
         flashLightSwitch.setOnCheckedChangeListener(this);
+
+        myDialog = new MyDialogs(this);
     }
 
     @Override
@@ -75,5 +89,21 @@ public class GreetingActivity extends AppCompatActivity implements View.OnClickL
     protected void onPause() {
         super.onPause();
         //todo выключить вспышку
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_memu_in_greeting_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.info:
+                myDialog.createInfoDialog();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
