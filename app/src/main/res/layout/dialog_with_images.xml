@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dialog_tv11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="fill"
+                android:text="Описание приложения:"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/dialog_tv111"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="fill"
+                android:text="Приложение предназначено для сканирования штрихкодов приборов учета и отправки данных на сервер."
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/dialog_tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="fill"
+                android:text="1.Начало работы:"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/dialog_tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:text="1. На главном экране приложения выбрать тип сканируемого штрихкода:
+                \n  1.Сканирование шлюза
+                \n  2.Сканирование счетчика
+                \n  3.Сканирование модуля ZIGBEE
+                \n  4.Сканирование роутера\n"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/dialog_tv335"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:text="2.Настройки"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/dialog_tv333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:text="2. После выбора типа сканируемого штрихкода, Вы попадаете на следующий экран приложения, где находится сканер штрихкода.
+                \n2.1 Перед началом работы можно указать порог колличества сканируемых штрихкодов, при достижении которого, программа автоматически предложит отправить указанное число штрихкодов на сервер. (по умолчанию значение равно 20)
+                \n2.1 (Перед началом работы можно указать колличество штрихкодов которые будут сохранены автоматически(по умолчанию значение равно 20))
+                \n2.2 В приложении есть возможность указать общее количество штрихкодов (не обязательно), для визуального отображения прогресса.
+                \n2.3 Кнопка проверка, принудительно отправляет данные на сервер, независимо от порога.
+                \n2.4 Включение подсветки (пока недоступно)"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/dialog_tv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="3. Сканирование"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/dialog_tv5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="3.1 Для запуска сканера нажать копку в окне сканера.\n3.2 Для экономии заряда батареи телефона, можно временно остановить сканер
+                 нажав на кнопку стоп, которая находится под окном сканера.\n3.3 Все отсканированные штрихкоды добавляются в список под сканером.
+                 \n3.4 При повторном сканировании шртихкода (котрый уже есть в списке) на экран выводится предупреждение об этом
+                 \n3.5 При сканировании программа проверяет штрихкод на соответстыие
+                 (Например : .....добавить текст.............), в случае несоответсвия выводитсся предупреждающее сообщение и штрих код не добавляется в список"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/dialog_tv55"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="4. Отправка на сервер"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/dialog_tv6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+               android:gravity="left"
+                android:text="4.1 Открытие окна для на сервер происходит, либо автоматически по достижению порога, либо принудительно по нажатию кнопки.
+                \n4.2 В окне отображается список штрихкодов подготовленных для отправки и кнопка отправить.
+                \n4.3 При успешной отправке выводится всплывающее сообщение, пользователь переходит на предыдущий экран приложения и отчищается временный список
+                отсканированных штрихкодов.
+                \n4.4 В случае ошибки отправки ..............выводится сообщение об ошибке..........
+                \n4.5"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/dialog_tv7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="5. Хранение данных в приложении."
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/dialog_tv77"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:text="5.1 При выходе из приложения все ........................................."
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>

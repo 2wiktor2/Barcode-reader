@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,10 +28,14 @@ public class ActivitySendBarcode extends AppCompatActivity implements View.OnCli
 
     private ArrayList<MyBarcode> resultsOfScan;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_barecodes);
+
+        Toolbar toolbar = findViewById(R.id.toolbar_activity_send);
+        setSupportActionBar(toolbar);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         Button buttonCheckAndSend = findViewById(R.id.button_check_and_send);
@@ -42,9 +47,10 @@ public class ActivitySendBarcode extends AppCompatActivity implements View.OnCli
         if (bundle != null) {
             resultsOfScan = (ArrayList<MyBarcode>) bundle.getSerializable(Constants.KEY_FOR_SEND_ARRAY_LIST);
         }
+
         // проверка. Вывод списка в log
         if (resultsOfScan != null) {
-            Log.d("qwerty", "Длина = " + resultsOfScan.size());
+            Log.d("qwertyu", "Длина = " + resultsOfScan.size());
             for (int i = 0; i < resultsOfScan.size(); i++) {
                 MyBarcode b = resultsOfScan.get(i);
                 String s = b.getBarcodeResult();

@@ -14,12 +14,14 @@ import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.testbarcodereader.R;
 import com.example.testbarcodereader.activitySend.ActivitySendBarcode;
 import com.example.testbarcodereader.activityesWithBarcodeReader.adapter.RVAdapter;
+import com.example.testbarcodereader.activityesWithBarcodeReader.fragments.FragmentStart;
 import com.example.testbarcodereader.data.MyBarcode;
 import com.example.testbarcodereader.utils.Constants;
 import com.example.testbarcodereader.utils.Converter;
@@ -42,7 +45,7 @@ import java.util.List;
 
 import static com.notbytes.barcode_reader.BarcodeReaderFragment.newInstance;
 
-public class MainActivity extends AppCompatActivity implements BarcodeReaderFragment.BarcodeReaderListener, SoundPool.OnLoadCompleteListener {
+public class MainActivity extends AppCompatActivity implements BarcodeReaderFragment.BarcodeReaderListener, SoundPool.OnLoadCompleteListener, View.OnClickListener {
 
     //todo ИСПРАВИТь иногда открываются сразу два окна акривити
     private ArrayList<MyBarcode> barcodes = new ArrayList<>();
@@ -50,10 +53,15 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     private TextView textViewCountScannedBarCode;
     private HashSet setOfBarcode;
     private int setSize;
+    private ImageButton imageButtonStartScan;
+    private ImageButton imageButtonStopScan;
 
     Converter converter;
     MyDialogs dialogs;
     SharedPreferences preferences;
+
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     //Колличество отсканированыых штрих-кодов
@@ -67,8 +75,24 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+
+        //Установить стрелку в toolBar
+/*        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }*/
+
+        fragmentManager = getSupportFragmentManager();
+
         RecyclerView recyclerViewResults = findViewById(R.id.recyclerView);
         textViewCountScannedBarCode = findViewById(R.id.textViewCountScanedBarCode);
+        imageButtonStartScan = findViewById(R.id.image_button_start_scan);
+        imageButtonStopScan = findViewById(R.id.image_button_stop_scan);
+        imageButtonStartScan.setOnClickListener(this);
+        imageButtonStopScan.setOnClickListener(this);
 
         setOfBarcode = new HashSet<>();
         converter = new Converter();
@@ -82,7 +106,9 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         rvAdapter = new RVAdapter(barcodes);
         recyclerViewResults.setAdapter(rvAdapter);
 
-        addBarcodeReaderFragment();
+        //Добавление фрагмента при запуске активити
+        addStartFragment();
+        //addBarcodeReaderFragment();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -144,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         }
     }
 
+    // Добавление фрагмента со сканером
     private void addBarcodeReaderFragment() {
         BarcodeReaderFragment readerFragment = newInstance(true, false, View.VISIBLE);
         readerFragment.setListener(this);
@@ -151,6 +178,15 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fm_container, readerFragment);
         fragmentTransaction.commitAllowingStateLoss();
+    }
+
+    // Добавление стартового фрагмента
+    private void addStartFragment() {
+        FragmentStart fragmentStart = new FragmentStart();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction
+                .replace(R.id.fm_container, fragmentStart)
+                .commit();
     }
 
     @Override
@@ -251,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         selectedQuantity = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 2);
         count = preferences.getInt(Constants.KEY_FOR_COUNT, 0);
         setOfBarcode = (HashSet<String>) preferences.getStringSet(Constants.KEY_FOR_SET, new HashSet<String>());
-        if(setOfBarcode != null){
+        if (setOfBarcode != null) {
             Log.i("qwertyu", "Длина SET-а = " + setOfBarcode.size());
         }
         barcodes.clear();
@@ -276,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     //Меню в toolbar-е
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        getMenuInflater().inflate(R.menu.toolbar_menu_in_main_activity, menu);
         return true;
     }
 
@@ -292,6 +328,9 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
                 break;
             case R.id.delete:
                 clearListOfBarCodeDialog();
+                break;
+            case R.id.info:
+                dialogs.createInfoDialog();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -409,6 +448,19 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     @Override
     public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
         Log.i("qwertyu", "onLoadComplete, sampleId = " + sampleId + ", status = " + status);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.image_button_start_scan:
+                addBarcodeReaderFragment();
+                break;
+            case R.id.image_button_stop_scan:
+                addStartFragment();
+                break;
+        }
+
     }
 }
 

@@ -45,6 +45,21 @@ public class MyDialogs {
         alert.show();
     }
 
+    //Диалог инструкция
+    public void createInfoDialog() {
+        final AlertDialog.Builder dialogInfo = new AlertDialog.Builder(context);
+        dialogInfo.setTitle("Инструкция")
+                .setView(R.layout.dialog_with_images)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = dialogInfo.create();
+        alert.show();
+    }
+
 
 /*
     //Диалог выбора количетва сканируемых штрихкодов

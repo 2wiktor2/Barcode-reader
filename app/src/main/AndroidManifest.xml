@@ -13,8 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activityInfo.ActivityInfo"></activity>
-        <activity android:name=".activityesWithBarcodeReader.fragments.FragmentPlay" />
         <activity
             android:name=".activityGreeting.GreetingActivity"
             android:screenOrientation="portrait">
