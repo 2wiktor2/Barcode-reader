@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.testbarcodereader.R;
 import com.example.testbarcodereader.activityesWithBarcodeReader.MainActivity;
+import com.example.testbarcodereader.activityesWithBarcodeReader.MainActivity2;
 import com.example.testbarcodereader.utils.MyDialogs;
 
 public class GreetingActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
@@ -44,7 +45,7 @@ public class GreetingActivity extends AppCompatActivity implements View.OnClickL
         buttonScanRouter = findViewById(R.id.button_scan_router);
 
         //buttonScanGateway.setOnClickListener(this);
-        //buttonScanEnergyMeter.setOnClickListener(this);
+        buttonScanEnergyMeter.setOnClickListener(this);
         buttonScanZigBee.setOnClickListener(this);
         buttonScanRouter.setOnClickListener(this);
 
@@ -62,7 +63,7 @@ public class GreetingActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(intent);
                 break;
             case R.id.button_scan_energy_meter:
-                Intent intent2 = new Intent(this, MainActivity.class);
+                Intent intent2 = new Intent(this, MainActivity2.class);
                 startActivity(intent2);
                 break;
             case R.id.button_scan_zigBee:

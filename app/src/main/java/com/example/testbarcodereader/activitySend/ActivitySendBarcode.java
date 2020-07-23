@@ -66,11 +66,13 @@ public class ActivitySendBarcode extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        if (validator()) {
+        setResult(RESULT_OK);
+        finish();
+/*        if (validator()) {
             Toast.makeText(this, "Данные успешно отправлены", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Данные не отправлены", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     //Валидатор

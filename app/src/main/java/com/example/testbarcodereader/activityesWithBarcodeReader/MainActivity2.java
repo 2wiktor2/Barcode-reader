@@ -1,5 +1,15 @@
 package com.example.testbarcodereader.activityesWithBarcodeReader;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,16 +27,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testbarcodereader.R;
 import com.example.testbarcodereader.activitySend.ActivitySendBarcode;
@@ -46,7 +46,7 @@ import java.util.List;
 
 import static com.notbytes.barcode_reader.BarcodeReaderFragment.newInstance;
 
-public class MainActivity extends AppCompatActivity implements BarcodeReaderFragment.BarcodeReaderListener, SoundPool.OnLoadCompleteListener, View.OnClickListener {
+public class MainActivity2 extends AppCompatActivity implements BarcodeReaderFragment.BarcodeReaderListener, SoundPool.OnLoadCompleteListener, View.OnClickListener {
 
     //todo ИСПРАВИТь иногда открываются сразу два окна акривити
     private ArrayList<MyBarcode> barcodes = new ArrayList<>();
@@ -270,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
 
     //Загрузка данных из sharedPreferences
     private void loadData() {
-        Log.i("qwertyu", "Загрузка данных из sharedPreferences");
         preferences = getPreferences(MODE_PRIVATE);
         selectedQuantityAutoSave = preferences.getInt(Constants.KEY_FOR_SELECTED_QUANTITY, 20);
         count = preferences.getInt(Constants.KEY_FOR_COUNT, 0);
@@ -413,7 +412,6 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         startActivityForResult(intent, 1);
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (resultCode) {
@@ -441,17 +439,14 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
     //Валидатор
     // todo реализовать валидатор. Соответствует ли отсканированная строка какому-то шаблону
     private boolean validator(String s) {
-        if (s.length() != 16) {
-            return false;
-        } else {
-            return true;
-        }
+        return true;
     }
 
     //метод для отчистки SharedPreferences
     private void clearSharedPreferences() {
         preferences = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+
         editor.clear();
         editor.apply();
         finish();
@@ -476,4 +471,3 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
 
     }
 }
-
