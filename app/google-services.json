@@ -8,7 +8,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:758909628215:android:3c57f82e909b3ea68074b2",
+        "mobilesdk_app_id": "1:758909628215:android:51c1daf09928947c8074b2",
         "android_client_info": {
           "package_name": "com.example.testbarcodereader"
         }

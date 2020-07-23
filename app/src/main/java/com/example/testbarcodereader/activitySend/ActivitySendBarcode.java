@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,7 +27,6 @@ public class ActivitySendBarcode extends AppCompatActivity implements View.OnCli
     //todo При отправке данных и закрытии второго активити отчищать список в первом активити
 
     private ArrayList<MyBarcode> resultsOfScan;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
