@@ -33,7 +33,7 @@ public class MyDialogs {
     //Диалог предупреждение о несоответствии MAC-адреса
     public void createWarningWrongMacAdresDialog(String rawBarcode) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Внимамие!!!")
+        builder.setTitle("Внимание!!!")
                 .setMessage(rawBarcode + "\n"+"MAC-не соответствует стандарту\nПопробуйте отсканировать штрихкод ещё раз")
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
@@ -59,9 +59,6 @@ public class MyDialogs {
         AlertDialog alert = dialogInfo.create();
         alert.show();
     }
-
-
-
 /*
     //Диалог выбора количетва сканируемых штрихкодов
     private void createDialog() {
