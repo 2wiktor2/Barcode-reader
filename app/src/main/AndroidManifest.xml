@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activityesWithBarcodeReader.MainActivity2"/>
+        <activity android:name=".activityAddRequest.ActivityAddRequest"></activity>
+        <activity android:name=".activityesWithBarcodeReader.MainActivity2" />
         <activity
             android:name=".activityGreeting.GreetingActivity"
             android:screenOrientation="portrait">
