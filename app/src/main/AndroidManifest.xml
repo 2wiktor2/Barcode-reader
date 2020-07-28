@@ -13,10 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activityAddOrder.ActivityAddOrder"></activity>
-        <activity android:name=".activityesWithBarcodeReader.MainActivity2" />
         <activity
-            android:name=".activityGreeting.GreetingActivity"
+            android:name=".activityOrder.ActivityCreateOrder"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activityOrder.ActivityAddOrder"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activityesWithBarcodeReader.MainActivity2" />
+        <activity
+            android:name=".activityGreeting.GreetingActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activitySend.ActivitySendBarcode"
             android:screenOrientation="portrait" />

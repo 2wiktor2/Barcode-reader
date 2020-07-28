@@ -1,4 +1,4 @@
-package com.example.testbarcodereader.activityAddOrder;
+package com.example.testbarcodereader.activityOrder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,12 +7,12 @@ import android.view.View;
 
 import com.example.testbarcodereader.R;
 
-public class ActivityAddOrder extends AppCompatActivity implements View.OnClickListener {
+public class ActivityCreateOrder extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_request);
+        setContentView(R.layout.activity_create_order);
     }
 
     @Override
