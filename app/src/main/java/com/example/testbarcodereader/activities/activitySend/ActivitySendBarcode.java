@@ -1,10 +1,9 @@
-package com.example.testbarcodereader.activitySend;
+package com.example.testbarcodereader.activities.activitySend;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testbarcodereader.R;
-import com.example.testbarcodereader.activitySend.adapter.RVAdapter2;
+import com.example.testbarcodereader.activities.activitySend.adapter.RVAdapter2;
 import com.example.testbarcodereader.data.MyBarcode;
 import com.example.testbarcodereader.utils.Constants;
 

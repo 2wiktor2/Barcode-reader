@@ -14,10 +14,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".activityOrder.ActivityCreateOrder"
+            android:name=".activities.activityOrder.ActivityCreateOrder"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activityOrder.ActivityAddOrder"
+            android:name=".activities.activityOrder.ActivityAddOrder"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,15 +25,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activityesWithBarcodeReader.MainActivity2" />
+        <activity android:name=".activities.activityesWithBarcodeReader.MainActivity2" />
         <activity
-            android:name=".activityGreeting.GreetingActivity"
+            android:name=".activities.activityGreeting.GreetingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activitySend.ActivitySendBarcode"
+            android:name=".activities.activitySend.ActivitySendBarcode"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activityesWithBarcodeReader.MainActivity"
+            android:name=".activities.activityesWithBarcodeReader.MainActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -1,4 +1,4 @@
-package com.example.testbarcodereader.activityGreeting;
+package com.example.testbarcodereader.activities.activityGreeting;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.testbarcodereader.R;
-import com.example.testbarcodereader.activityesWithBarcodeReader.MainActivity;
-import com.example.testbarcodereader.activityesWithBarcodeReader.MainActivity2;
+import com.example.testbarcodereader.activities.activityesWithBarcodeReader.MainActivity;
+import com.example.testbarcodereader.activities.activityesWithBarcodeReader.MainActivity2;
 import com.example.testbarcodereader.utils.MyDialogs;
 
 public class GreetingActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {

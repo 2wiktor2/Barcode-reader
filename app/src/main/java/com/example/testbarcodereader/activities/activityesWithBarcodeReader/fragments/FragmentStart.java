@@ -1,4 +1,4 @@
-package com.example.testbarcodereader.activityesWithBarcodeReader.fragments;
+package com.example.testbarcodereader.activities.activityesWithBarcodeReader.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

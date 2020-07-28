@@ -1,4 +1,4 @@
-package com.example.testbarcodereader.activityOrder;
+package com.example.testbarcodereader.activities.activityOrder;
 
 import androidx.appcompat.app.AppCompatActivity;
 

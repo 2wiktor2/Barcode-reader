@@ -1,4 +1,4 @@
-package com.example.testbarcodereader.activityOrder.model;
+package com.example.testbarcodereader.activities.activityOrder.model;
 
 public class Order {
 
