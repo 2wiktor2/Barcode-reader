@@ -1,7 +1,9 @@
 package com.example.testbarcodereader.device;
 
 public class Device {
-    private String barcode;
-    private int status;
+    protected String barcode;
+    protected int status;
+
+
 
 }

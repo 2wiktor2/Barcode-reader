@@ -28,5 +28,6 @@
     <string name="clear">Отчистить</string>
     <string name="auto_save">Автосохранение</string>
     <string name="ok">OK</string>
+    <string name="button_text_create_new_order">Создать новую заявку</string>
 
 </resources>
