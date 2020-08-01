@@ -21,7 +21,6 @@ public class ActivityAddOrder extends AppCompatActivity implements View.OnClickL
         toolbar.setTitle(getResources().getString(R.string.barcode_scanner));
         setSupportActionBar(toolbar);
 
-
         Button buttonCreateOrder = findViewById(R.id.button_create_order);
         buttonCreateOrder.setOnClickListener(this);
     }

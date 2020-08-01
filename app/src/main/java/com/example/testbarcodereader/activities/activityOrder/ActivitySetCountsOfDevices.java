@@ -1,4 +1,4 @@
-package com.example.testbarcodereader.activities.activitySetCountsOfDevices;
+package com.example.testbarcodereader.activities.activityOrder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.testbarcodereader.R;
 import com.example.testbarcodereader.activities.activityOrder.ActivityCreateOrder;
+import com.example.testbarcodereader.utils.Constants;
 
 public class ActivitySetCountsOfDevices extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -40,8 +41,23 @@ public class ActivitySetCountsOfDevices extends AppCompatActivity implements Vie
 
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(this, ActivityCreateOrder.class);
-        startActivity(intent);
+        if (!editTextCountOfDevices.getText().toString().equals("")) {
+            String type = spinnerTypeOfDevise.getSelectedItem().toString();
+            String count = editTextCountOfDevices.getText().toString();
+            sendMessage(type, count);
+        } else {
+            Toast.makeText(this, "Укажите количество!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void sendMessage(String type, String count) {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.KEY_FOR_TYPE_OF_METER, type);
+        bundle.putString(Constants.KEY_FOR_COUNT_OF_METERS, count);
+        intent.putExtras(bundle);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override

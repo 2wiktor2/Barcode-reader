@@ -1,9 +1,9 @@
-package com.example.testbarcodereader.device.devices;
+package com.example.testbarcodereader.device.meters;
 
-import com.example.testbarcodereader.device.Device;
+import com.example.testbarcodereader.device.Meter;
 import com.example.testbarcodereader.device.Validatable;
 
-public class EnergyMeter extends Device implements Validatable {
+public class EnergyMeter extends Meter implements Validatable {
 
     private String barCodeSecond;
 

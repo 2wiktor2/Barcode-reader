@@ -204,8 +204,6 @@ public class MainActivity extends AppCompatActivity implements BarcodeReaderFrag
         } else {
             dialogs.createWarningWrongMacAdresDialog(barcode.rawValue);
         }
-
-
         rvAdapter.notifyDataSetChanged();
         count = barcodes.size();
 

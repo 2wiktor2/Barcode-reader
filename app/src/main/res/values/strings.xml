@@ -31,17 +31,16 @@
     <string name="button_text_create_new_order">Создать новую заявку</string>
 
     <string-array name="meter_type_array">
-        <item>Meter Type 1</item>
-        <item>Meter Type 2</item>
-        <item>Meter Type 3</item>
-        <item>Meter Type 4</item>
-        <item>Meter Type 5</item>
-        <item>Meter Type 6</item>
-        <item>Meter Type 7</item>
-        <item>Meter Type 8</item>
-        <item>Meter Type 9</item>
-        <item>Meter Type 10</item>
-        <item>Meter Type 11</item>
+        <item>Миртек-12-РУ</item>
+        <item>Миртек-32-РУ</item>
+        <item>Шлюз ШЛ-ZB-02</item>
+        <item>Type 4</item>
+        <item>Type 5</item>
+        <item>Type 6</item>
+        <item>Type 7</item>
+        <item>Type 8</item>
+        <item>Type 9</item>
+        <item>Type 10</item>
     </string-array>
 
 </resources>

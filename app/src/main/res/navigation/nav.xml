@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav"
+    app:startDestination="@id/activityAddOrder">
+
+    <activity
+        android:id="@+id/activityAddOrder"
+        android:name="com.example.testbarcodereader.activities.activityOrder.ActivityAddOrder"
+        android:label="activity_add_order"
+        tools:layout="@layout/activity_add_order" />
+    <activity
+        android:id="@+id/activityCreateOrder"
+        android:name="com.example.testbarcodereader.activities.activityOrder.ActivityCreateOrder"
+        android:label="activity_create_order"
+        tools:layout="@layout/activity_create_order" />
+    <activity
+        android:id="@+id/activitySendBarcode"
+        android:name="com.example.testbarcodereader.activities.activitySend.ActivitySendBarcode"
+        android:label="activity_send_barecodes"
+        tools:layout="@layout/activity_send_barecodes" />
+    <activity
+        android:id="@+id/activityChooseTypeOfScan2"
+        android:name="com.example.testbarcodereader.activities.activityChooseTypeOfScan.ActivityChooseTypeOfScan"
+        android:label="activity_choose_type_of_scan"
+        tools:layout="@layout/activity_choose_type_of_scan" />
+    <activity
+        android:id="@+id/mainActivity22"
+        android:name="com.example.testbarcodereader.activities.activityesWithBarcodeReader.MainActivity2"
+        android:label="activity_main2"
+        tools:layout="@layout/activity_main2" />
+    <activity
+        android:id="@+id/activitySetCountsOfDevices2"
+        android:name="com.example.testbarcodereader.activities.activityOrder.ActivitySetCountsOfDevices"
+        android:label="activity_set_coutns_of_devices"
+        tools:layout="@layout/activity_set_coutns_of_devices" />
+</navigation>

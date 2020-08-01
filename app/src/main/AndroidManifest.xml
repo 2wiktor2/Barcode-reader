@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.activitySetCountsOfDevices.ActivitySetCountsOfDevices" />
+        <activity android:name=".activities.activityOrder.ActivitySetCountsOfDevices" />
         <activity
             android:name=".activities.activityOrder.ActivityCreateOrder"
             android:screenOrientation="portrait" />

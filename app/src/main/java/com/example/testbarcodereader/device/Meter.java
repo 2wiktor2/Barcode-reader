@@ -1,6 +1,6 @@
 package com.example.testbarcodereader.device;
 
-public class Device {
+public class Meter {
     protected String barcode;
     protected int status;
 
