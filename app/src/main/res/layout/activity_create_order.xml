@@ -28,16 +28,17 @@
                 android:id="@+id/imageView_status_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:src="@drawable/ic_check"
+                android:tint="@color/colorGrayLight"
                 app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_activity_create_order_number"
-                app:layout_constraintEnd_toStartOf="@+id/textInputLayout_activity_create_order_number"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textInputLayout_activity_create_order_number" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout_activity_create_order_number"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
@@ -47,7 +48,7 @@
                 app:boxStrokeColor="@color/colorPrimary"
                 app:counterEnabled="false"
                 app:counterMaxLength="10"
-                app:layout_constraintLeft_toRightOf="@id/imageView_status_date"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -58,17 +59,20 @@
                     android:ems="10"
                     android:gravity="center"
                     android:inputType="number"
-                    android:maxLength="10" />
+                    android:maxLength="10"
+                    android:text="456123" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
                 android:id="@+id/imageView_status_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:src="@drawable/ic_check"
+                android:tint="@color/colorGrayLight"
                 app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_activity_create_order_date"
-                app:layout_constraintEnd_toStartOf="@+id/textInputLayout_activity_create_order_date"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+
                 app:layout_constraintTop_toTopOf="@+id/textInputLayout_activity_create_order_date" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -82,7 +86,7 @@
                 android:gravity="center"
                 android:hint="Дата"
                 app:boxStrokeColor="@color/colorPrimary"
-                app:layout_constraintLeft_toRightOf="@id/imageView_status_number"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_activity_create_order_number">
 
@@ -93,17 +97,19 @@
                     android:ems="12"
                     android:gravity="center"
                     android:inputType="date"
-                    android:maxLength="10" />
+                    android:maxLength="10"
+                    android:text="22.07.2020" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
                 android:id="@+id/imageView_status_sender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_check_circle_outline_24"
+                android:layout_marginStart="24dp"
+                android:src="@drawable/ic_check"
+                android:tint="@color/colorGrayLight"
                 app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_activity_create_order_sender"
-                app:layout_constraintEnd_toStartOf="@+id/textInputLayout_activity_create_order_sender"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textInputLayout_activity_create_order_sender" />
 
 
@@ -118,7 +124,7 @@
                 android:gravity="center"
                 android:hint="Отправитель"
                 app:boxStrokeColor="@color/colorPrimary"
-                app:layout_constraintLeft_toRightOf="@id/imageView_status_number"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_activity_create_order_date">
 
@@ -129,17 +135,19 @@
                     android:ems="12"
                     android:gravity="center"
                     android:inputType="textCapSentences"
-                    android:maxLength="10" />
+                    android:maxLength="10"
+                    android:text="СЭК" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
                 android:id="@+id/imageView_status_getter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_check_circle_outline_24"
+                android:layout_marginStart="24dp"
+                android:src="@drawable/ic_check"
+                android:tint="@color/colorGrayLight"
                 app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_activity_create_order_getter"
-                app:layout_constraintEnd_toStartOf="@+id/textInputLayout_activity_create_order_getter"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textInputLayout_activity_create_order_getter" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -153,7 +161,7 @@
                 android:gravity="center"
                 android:hint="Получатель"
                 app:boxStrokeColor="@color/colorPrimary"
-                app:layout_constraintLeft_toRightOf="@id/imageView_status_number"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_activity_create_order_sender">
 
@@ -164,17 +172,19 @@
                     android:ems="12"
                     android:gravity="center"
                     android:inputType="textCapSentences"
-                    android:maxLength="10" />
+                    android:maxLength="10"
+                    android:text="ИП Иванов С.С." />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
                 android:id="@+id/imageView_status_sent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:src="@drawable/ic_check"
+                android:tint="@color/colorGrayLight"
                 app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_activity_create_order_sent"
-                app:layout_constraintEnd_toStartOf="@+id/textInputLayout_activity_create_order_sent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textInputLayout_activity_create_order_sent" />
 
 
@@ -189,7 +199,7 @@
                 android:gravity="center"
                 android:hint="Отправил"
                 app:boxStrokeColor="@color/colorPrimary"
-                app:layout_constraintLeft_toRightOf="@id/imageView_status_number"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_activity_create_order_getter">
 
@@ -199,17 +209,19 @@
                     android:layout_height="wrap_content"
                     android:ems="12"
                     android:gravity="center"
-                    android:inputType="textCapSentences" />
+                    android:inputType="textCapSentences"
+                    android:text="Сранцев З.А." />
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
                 android:id="@+id/imageView_status_get"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:src="@drawable/ic_check"
+                android:tint="@color/colorGrayLight"
                 app:layout_constraintBottom_toBottomOf="@+id/textInputLayout_activity_create_order_get"
-                app:layout_constraintEnd_toStartOf="@+id/textInputLayout_activity_create_order_get"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textInputLayout_activity_create_order_get" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -223,6 +235,7 @@
                 android:gravity="center"
                 android:hint="Получил"
                 app:boxStrokeColor="@color/colorPrimary"
+                app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/imageView_status_number"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout_activity_create_order_sent">
@@ -233,36 +246,45 @@
                     android:layout_height="wrap_content"
                     android:ems="12"
                     android:gravity="center"
-                    android:inputType="textCapSentences" />
+                    android:inputType="textCapSentences"
+                    android:text="Далёкий Н.Е." />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_meters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout_activity_create_order_get" />
+
             <Button
-                android:id="@+id/button_add"
+                android:id="@+id/button_add_devices"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Указать количетво приборов"
+                android:text="Добавить тип\n и\n количетво приборов"
                 app:layout_constraintBottom_toTopOf="@+id/button_take_a_picture"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout_activity_create_order_get" />
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView_meters" />
 
             <Button
                 android:id="@+id/button_take_a_picture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Добавить фотографию"
-                app:layout_constraintBottom_toTopOf="@+id/button_create"
+                app:layout_constraintBottom_toTopOf="@+id/button_create_order"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
-                android:id="@+id/button_create"
+                android:id="@+id/button_create_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:clickable="false"
-                android:text="Создать"
+                android:text="Создать заявку"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

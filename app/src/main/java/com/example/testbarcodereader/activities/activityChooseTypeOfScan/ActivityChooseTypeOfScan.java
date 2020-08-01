@@ -1,4 +1,4 @@
-package com.example.testbarcodereader.activities.activityGreeting;
+package com.example.testbarcodereader.activities.activityChooseTypeOfScan;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import com.example.testbarcodereader.activities.activityesWithBarcodeReader.Main
 import com.example.testbarcodereader.activities.activityesWithBarcodeReader.MainActivity2;
 import com.example.testbarcodereader.utils.MyDialogs;
 
-public class GreetingActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class ActivityChooseTypeOfScan extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     // todo Выключать вспышку при выходе из приложения
 
@@ -34,7 +34,7 @@ public class GreetingActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_greeting);
+        setContentView(R.layout.activity_choose_type_of_scan);
 
         Toolbar toolbar = findViewById(R.id.toolBar);
         toolbar.setTitle(getResources().getString(R.string.barcode_scanner));
@@ -45,7 +45,7 @@ public class GreetingActivity extends AppCompatActivity implements View.OnClickL
         buttonScanZigBee = findViewById(R.id.button_scan_zigBee);
         buttonScanRouter = findViewById(R.id.button_scan_router);
 
-        //buttonScanGateway.setOnClickListener(this);
+        buttonScanGateway.setOnClickListener(this);
         buttonScanEnergyMeter.setOnClickListener(this);
         buttonScanZigBee.setOnClickListener(this);
         buttonScanRouter.setOnClickListener(this);
