@@ -13,7 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.activityOrder.ActivitySetCountsOfDevices" />
+        <activity
+            android:name=".activities.activityesWithBarcodeReader.MainActivity4"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.activityesWithBarcodeReader.MainActivity3"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.activityOrder.ActivitySetCountsOfDevices"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.activityOrder.ActivityCreateOrder"
             android:screenOrientation="portrait" />

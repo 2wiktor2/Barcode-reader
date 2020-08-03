@@ -17,6 +17,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.testbarcodereader.R;
 import com.example.testbarcodereader.activities.activityesWithBarcodeReader.MainActivity;
 import com.example.testbarcodereader.activities.activityesWithBarcodeReader.MainActivity2;
+import com.example.testbarcodereader.activities.activityesWithBarcodeReader.MainActivity3;
+import com.example.testbarcodereader.activities.activityesWithBarcodeReader.MainActivity4;
 import com.example.testbarcodereader.utils.MyDialogs;
 
 public class ActivityChooseTypeOfScan extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
@@ -57,7 +59,7 @@ public class ActivityChooseTypeOfScan extends AppCompatActivity implements View.
 
 
         //тестовый краш
-        Button crashButton = new Button(this);
+/*        Button crashButton = new Button(this);
         crashButton.setText("Crash!");
         crashButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -67,7 +69,7 @@ public class ActivityChooseTypeOfScan extends AppCompatActivity implements View.
 
         addContentView(crashButton, new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+                ViewGroup.LayoutParams.WRAP_CONTENT));*/
     }
 
     @Override
@@ -82,11 +84,11 @@ public class ActivityChooseTypeOfScan extends AppCompatActivity implements View.
                 startActivity(intent2);
                 break;
             case R.id.button_scan_zigBee:
-                Intent intent3 = new Intent(this, MainActivity.class);
+                Intent intent3 = new Intent(this, MainActivity3.class);
                 startActivity(intent3);
                 break;
             case R.id.button_scan_router:
-                Intent intent4 = new Intent(this, MainActivity.class);
+                Intent intent4 = new Intent(this, MainActivity4.class);
                 startActivity(intent4);
                 break;
         }

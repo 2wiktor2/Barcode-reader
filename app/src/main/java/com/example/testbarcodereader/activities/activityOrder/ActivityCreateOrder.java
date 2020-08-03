@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.testbarcodereader.R;
+import com.example.testbarcodereader.activities.activityChooseTypeOfScan.ActivityChooseTypeOfScan;
 import com.example.testbarcodereader.activities.activityOrder.adapter.AdapterForTypeAndCounOfMeters;
 import com.example.testbarcodereader.data.MyBarcode;
 import com.example.testbarcodereader.data.TempHolderTypeAndData;
@@ -100,8 +101,10 @@ public class ActivityCreateOrder extends AppCompatActivity implements View.OnCli
                 Toast.makeText(this, "Фотка заявки", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.button_create_order:
-                changeColorOfIcons(imageView_status_number, edit_text_activity_create_order_number);
-                Toast.makeText(this, "Саявка создана\nОтсканируйте устройства!", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(this, ActivityChooseTypeOfScan.class);
+                startActivity(intent1);
+                //  changeColorOfIcons(imageView_status_number, edit_text_activity_create_order_number);
+                // Toast.makeText(this, "Саявка создана\nОтсканируйте устройства!", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

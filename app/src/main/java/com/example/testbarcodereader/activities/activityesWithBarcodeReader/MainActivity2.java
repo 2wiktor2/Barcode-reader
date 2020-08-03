@@ -439,7 +439,11 @@ public class MainActivity2 extends AppCompatActivity implements BarcodeReaderFra
     //Валидатор
     // todo реализовать валидатор. Соответствует ли отсканированная строка какому-то шаблону
     private boolean validator(String s) {
-        return true;
+        if (s.length() != 13 || s.equals("4620013474061")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     //метод для отчистки SharedPreferences
@@ -468,6 +472,5 @@ public class MainActivity2 extends AppCompatActivity implements BarcodeReaderFra
                 addStartFragment();
                 break;
         }
-
     }
 }

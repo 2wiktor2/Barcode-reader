@@ -2,20 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/info"
-        android:title="@string/instruction"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/auto_save_set_count"
-        android:title="@string/auto_save"
-        app:showAsAction="never" />
+        android:title="auto save"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/info"
+        android:icon="@drawable/ic_baseline_menu_book_24"
+        android:title="@string/instruction"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/check"
+        android:icon="@drawable/ic_baseline_save_24"
         android:title="@string/checking"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
     <item
+        android:icon="@drawable/ic_baseline_delete_forever_24"
         android:id="@+id/delete"
         android:title="@string/clear"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>
